@@ -1,8 +1,13 @@
-﻿
+﻿@using MvcTables.Samples.App_Start
+
+@{
+    var table = Html.MvcTable(() => new InvoiceTable());
+}
+
 <section id="Result">
     <h4>Result</h4>
-    @Html.TableHelper("ListInvoices").Table()
-    @Html.TableHelper("ListInvoices").Pagination()
+    @table.Table()
+    @table.Pagination()
 </section>
 <section id="Config">
     <h4>Config</h4>

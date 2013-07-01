@@ -31,15 +31,13 @@
         var id = $that.data('table-id');
         var filter = $that.data('filter');
 
-        $('[data-target="' + id + '"].' + internalFilterClass).on('click.' + id + '.mvctable', function (e) {
-            e.preventDefault();
-            var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
-            methods.refresh.apply($that, [newVals]);
-        });
+        //$('a.' + internalFilterClass).on('click.' + id + '.mvctable', function (e) {
+        //    e.preventDefault();
+        //    var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
+        //    methods.refresh.apply($that, [newVals]);
+        //});
 
-        $('body').on('click.' + id + '.mvctable', 'a[data-target="' + id + '"].' + filter, function (e) {
-            if ($(this).is('.' + internalFilterClass))
-                return;
+        $('body').on('click.' + id + '.mvctable', 'a.' + filter, function (e) {
             e.preventDefault(); 
             var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
             methods.refresh.apply($that, [newVals]);
@@ -47,7 +45,7 @@
         
         var changeElements = '';
         $.each(['input', 'select', 'textarea'], function (_, v) {
-            changeElements += (v + '[data-target="' + id + '"].' + filter + ',');
+            changeElements += (v + '.' + filter + ',');
         });
         changeElements = changeElements.substr(0, changeElements.length - 1);
         $('body').on('change.' + id + '.mvctable', changeElements, function (e) {

@@ -1,10 +1,11 @@
 ﻿
+@using MvcTables.Samples.App_Start
 @using MvcTables.Samples.HtmlExtensions
 @model MvcTables.Samples.Models.FiltersModel
 
 @{
     ViewBag.Title = "Filters";
-    var table = Html.TableHelper("ListOrdersForFilters");
+    var table = Html.MvcTable(() => new OrderFilterTable());
 }
 <section id="Result">
     <h4>Result</h4>

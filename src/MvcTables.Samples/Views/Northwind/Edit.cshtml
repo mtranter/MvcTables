@@ -1,10 +1,11 @@
-﻿@{
+﻿@using MvcTables.Samples.App_Start
+@{
     ViewBag.Title = "Edit";
 }
 
 
 @{
-    var table = Html.TableHelper("ListEmployees");
+    var table = Html.MvcTable(() => new EmployeeTable());
 }
 
 @table.Table()

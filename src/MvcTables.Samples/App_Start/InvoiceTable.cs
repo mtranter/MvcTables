@@ -12,6 +12,7 @@
         public override void Configure(IStaticTableConfiguration<Invoice> config)
         {
             config
+                .SetAction("ListInvoices","Northwind")
                 .SetCssClass("table table-striped")
                 .DisplayForColumn(m => m.ProductName)
                 .DisplayForColumn(m => m.Quantity)

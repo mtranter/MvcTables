@@ -101,7 +101,7 @@
             
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
-            return TableResult.From(orders).Build<OrderConfigurator>(request);
+            return TableResult.From(orders).Build<OrderTable>(request);
 
         }
 
@@ -109,7 +109,7 @@
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
-            return TableResult.From(orders).Build<ParentOrderConfigurator>(request);
+            return TableResult.From(orders).Build<ParentOrderTable>(request);
         }
 
         public ActionResult ListChildOrderDetails(TableRequestModel request, int? orderId)
@@ -126,7 +126,7 @@
                 orderDetails = orderDetails.Where(o => o.OrderID == orderId.Value);
             }
 
-            return TableResult.From(orderDetails).Build<ChildOrderDetailConfigurator>(request);
+            return TableResult.From(orderDetails).Build<ChildOrderDetailTable>(request);
         }
 
         public ActionResult ListOrdersForFilters(TableRequestModel request, FiltersModel model)
@@ -138,7 +138,7 @@
             {
                 orders = orders.Where(o => o.CustomerID == model.SelectedCustomerId);
             }
-            return TableResult.From(orders).Build<OrderFilterConfigurator>(request);
+            return TableResult.From(orders).Build<OrderFilterTable>(request);
         }
     }
 }

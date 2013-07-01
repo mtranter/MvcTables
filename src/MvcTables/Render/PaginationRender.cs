@@ -41,9 +41,7 @@
                     {
                         using (
                             new ComplexContentTag("a",
-                                                  new RouteValueDictionary(new {href = _paginator.First.Url}).WithClass(
-                                                                                                                        HtmlConstants
-                                                                                                                            .InternalFilterClass),
+                                                  new RouteValueDictionary(new { href = _paginator.First.Url }).WithClass(pageConfig.TableDefinition.FilterExpression),
                                                   writer))
                         {
                             writer.Write(pageConfig.FirstPageText);
@@ -54,7 +52,7 @@
                         using (
                             new ComplexContentTag("a",
                                                   new RouteValueDictionary(new {href = _paginator.Previous.Url})
-                                                      .WithClass(HtmlConstants.InternalFilterClass), writer))
+                                                      .WithClass(pageConfig.TableDefinition.FilterExpression), writer))
                         {
                             writer.Write(pageConfig.PreviousPageText);
                         }
@@ -67,9 +65,7 @@
                         {
                             using (
                                 new ComplexContentTag("a",
-                                                      new RouteValueDictionary(new {href = page.Url}).WithClass(
-                                                                                                                HtmlConstants
-                                                                                                                    .InternalFilterClass),
+                                                      new RouteValueDictionary(new { href = page.Url }).WithClass(pageConfig.TableDefinition.FilterExpression),
                                                       writer))
                             {
                                 writer.Write(page.PageNumber.ToString(Thread.CurrentThread.CurrentUICulture));
@@ -80,9 +76,7 @@
                     {
                         using (
                             new ComplexContentTag("a",
-                                                  new RouteValueDictionary(new {href = _paginator.Next.Url}).WithClass(
-                                                                                                                       HtmlConstants
-                                                                                                                           .InternalFilterClass),
+                                                  new RouteValueDictionary(new { href = _paginator.Next.Url }).WithClass(pageConfig.TableDefinition.FilterExpression),
                                                   writer))
                         {
                             writer.Write(pageConfig.NextPageText);
@@ -92,9 +86,7 @@
                     {
                         using (
                             new ComplexContentTag("a",
-                                                  new RouteValueDictionary(new {href = _paginator.Last.Url}).WithClass(
-                                                                                                                       HtmlConstants
-                                                                                                                           .InternalFilterClass),
+                                                  new RouteValueDictionary(new { href = _paginator.Last.Url }).WithClass(pageConfig.TableDefinition.FilterExpression),
                                                   writer))
                         {
                             writer.Write(pageConfig.LastPageText);

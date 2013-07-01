@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables", "MvcTable\MvcTables.csproj", "{88536637-8F02-4936-BBB9-5E627B09A7A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables", "MvcTables\MvcTables.csproj", "{88536637-8F02-4936-BBB9-5E627B09A7A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Samples", "MvcTable.Samples\MvcTables.Samples.csproj", "{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Samples", "MvcTables.Samples\MvcTables.Samples.csproj", "{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

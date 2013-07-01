@@ -2,8 +2,9 @@
 {
     internal class PagingControlConfiguration : IPagingControlConfiguration
     {
-        public PagingControlConfiguration()
+        public PagingControlConfiguration(ITableDefinition tableDefinition)
         {
+            TableDefinition = tableDefinition;
             ContainerCssClass = "table-pagination";
             DisabledCssClass = "disabled";
             ActiveCssClass = "active";
@@ -20,6 +21,7 @@
         public string LastPageText { get; private set; }
         public string NextPageText { get; private set; }
         public string PreviousPageText { get; private set; }
+        public ITableDefinition TableDefinition { get; private set; }
 
         #region IPagingControlConfiguration Members
 

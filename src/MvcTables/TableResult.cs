@@ -94,7 +94,7 @@
                     }
                 }
 
-                var tableRender = TableRenderFactory.Get(runtimeConfig, _tableRequest, urlManager, paginator);
+                var tableRender = TableRenderFactory.Get(runtimeConfig, _tableRequest, urlManager);
                 tableRender.Render(_rows.PaginateRows(_tableRequest), _tableRequest, context);
             }
 
@@ -108,7 +108,7 @@
         private ITableDefinition<TModel> GetTableDefinition(ControllerContext ctx)
         {
             var routeVals = ctx.RouteData.Values;
-            var area = routeVals.ContainsKey("area") ? routeVals["area"].ToString() : null;
+            var area = routeVals.ContainsKey("area") && routeVals["area"] != null ? routeVals["area"].ToString() : null;
             var tableDefinition = TableConfigurations.Configurations.GetOrLoadDefault<TTable, TModel>(routeVals["action"].ToString(), routeVals["controller"].ToString(), area);
 
             var runtimeConfig = _override.IsValueCreated

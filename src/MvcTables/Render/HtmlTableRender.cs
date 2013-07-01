@@ -12,23 +12,19 @@
     internal static class HtmlConstants
     {
         internal const string MvctableContainer = "mvctable-container";
-        internal const string InternalFilterClass = "mvctable-trigger";
         internal const string RenderPaginationRouteValue = "RenderPager";
         internal const string RenderTableRouteValue = "RenderTable";
     }
 
     internal class HtmlTableRender<TModel> : ITableRender<TModel>
     {
-        private readonly IPaginator _paginator;
         private readonly ITableDefinition<TModel> _tableDefinition;
         private readonly ITableUrlManager _urlManager;
 
-        public HtmlTableRender(ITableDefinition<TModel> tableDefinition, ITableUrlManager urlManager,
-                               IPaginator paginator)
+        public HtmlTableRender(ITableDefinition<TModel> tableDefinition, ITableUrlManager urlManager)
         {
             _tableDefinition = tableDefinition;
             _urlManager = urlManager;
-            _paginator = paginator;
         }
 
         public void Render(IEnumerable<TModel> rows, TableRequestModel model, ControllerContext context)
@@ -94,7 +90,7 @@
                                             using (
                                                 new ComplexContentTag("a",
                                                                       new RouteValueDictionary(new {href = sortUrl})
-                                                                          .WithClass(HtmlConstants.InternalFilterClass),
+                                                                          .WithClass(_tableDefinition.FilterExpression),
                                                                       writer))
                                             {
                                                 writer.Write(col.GetHeaderValue(context, writer));

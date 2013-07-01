@@ -13,6 +13,7 @@
         {
             config
                 .ScaffoldAllColumns()
+                .SetAction("ListCategories", "Northwind")
                 .SetCssClass("table table-striped");
 
         }

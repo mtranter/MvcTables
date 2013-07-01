@@ -15,14 +15,14 @@
     {
         public static MvcTableHelper MvcTable<TModel>(this HtmlHelper helper, Expression<Func<MvcTable<TModel>>> tableDef)
         {
-            var table = TableConfigurations.Configurations.Get<TModel>(tableDef.ReturnType);
+            var table = TableConfigurations.Configurations.Get<TModel>(tableDef.Body.Type);
             return new MvcTableHelper(helper, table);
         }
 
         public static MvcHtmlString MvcTableScript(this HtmlHelper helper)
         {
             var resource =
-                typeof (TableResult<,>).Assembly.GetManifestResourceStream(@"MvcTable.Scripts.MvcTable.jQuery.js");
+                typeof (TableResult<,>).Assembly.GetManifestResourceStream(@"MvcTables.Scripts.MvcTable.jQuery.js");
             var reader = new StreamReader(resource);
             var retval = @"<script type=""text/javascript"">" + reader.ReadToEnd() + "</script>";
             return MvcHtmlString.Create(retval);

@@ -15,7 +15,6 @@
 
     internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>
     {
-        internal const string FilterSelector = "mvc-table-filter";
         
         private static readonly MethodInfo AddColumnMethod =
             typeof (ITableConfiguration<TModel>).GetMethod("DisplayForColumn");
@@ -24,7 +23,8 @@
 
         public TableConfiguration()
         {
-            PagingConfiguration = new PagingControlConfiguration();
+            PagingConfiguration = new PagingControlConfiguration(this);
+            FilterExpression = "mvc-table-filter";
             Id = Guid.NewGuid().ToString("N");
         }
 
@@ -39,10 +39,7 @@
 
         public PagingControlConfiguration PagingConfiguration { get; private set; }
         
-        public string FilterExpression
-        {
-            get { return FilterSelector; }
-        }
+        public string FilterExpression { get; private set; }
 
         public string Action
         {
@@ -67,6 +64,12 @@
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetCssClass(string @class)
         {
             CssClass = @class;
+            return this;
+        }
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetFilterClass(string @class)
+        {
+            FilterExpression = @class;
             return this;
         }
 

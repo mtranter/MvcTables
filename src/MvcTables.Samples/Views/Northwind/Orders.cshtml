@@ -1,8 +1,12 @@
-﻿
+﻿@using MvcTables.Samples.App_Start
+@{
+    var table = Html.MvcTable(() => new OrderTable());
+}
 <section id="Result">
     <h4>Result</h4>
-    @Html.TableHelper("ListOrders").Table()
-    @Html.TableHelper("ListOrders").Pagination()
+    
+    @table.Table()
+    @table.Pagination()
 </section>
 <section id="Config">
     <h4>Config</h4>

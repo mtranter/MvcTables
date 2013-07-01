@@ -58,7 +58,7 @@
 
         public string FilterExpression
         {
-            get { return _staticModel.FilterExpression; }
+            get { return _runtimeDefiniton.IfIsNull(c => c.FilterExpression) ?? _staticModel.FilterExpression; }
         }
 
         #region ITableDefinition Members

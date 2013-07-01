@@ -56,6 +56,15 @@
         ITableConfiguration<TModel> SetCssClass(string @class);
 
         /// <summary>
+        ///     Defines the CSS class(es) that decorate the &gt;table /&lt;
+        /// </summary>
+        /// <param name="class">The css class.</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> SetFilterClass(string @class);
+
+        /// <summary>
         ///     Configures the paging control
         /// </summary>
         /// <param name="pagingCfg">

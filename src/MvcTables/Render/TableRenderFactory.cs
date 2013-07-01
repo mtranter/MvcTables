@@ -8,13 +8,14 @@
 
     internal static class TableRenderFactory
     {
-        public static ITableRender<TModel> Get<TModel>(ITableDefinition<TModel> config, TableRequestModel model,
-                                                       ITableUrlManager urlManager, IPaginator paginator)
+        public static ITableRender<TModel> Get<TModel>(ITableDefinition<TModel> config, 
+                                                       TableRequestModel model,
+                                                       ITableUrlManager urlManager)
         {
             switch (model.Format)
             {
                 case TableRenderFormat.Html:
-                    return new HtmlTableRender<TModel>(config, urlManager, paginator);
+                    return new HtmlTableRender<TModel>(config, urlManager);
                 case TableRenderFormat.Json:
                     return new JsonArrayTableRender<TModel>(config);
                 case TableRenderFormat.Xml:
