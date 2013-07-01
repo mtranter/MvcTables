@@ -1,0 +1,61 @@
+﻿@using MvcTables.Samples
+@using MvcTables.Samples.HtmlExtensions
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        <link href="~/Content/Site.css" rel="stylesheet" />
+        <link href="~/Content/datepicker.css" rel="stylesheet" />
+        @Styles.Render(BundleConfig.ContentBootstrap)
+    
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+     
+    </head>
+    <body data-spy="scroll" data-target="#SideNav">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="#">MVC Table</a>
+                <ul class="nav">
+                    @Html.NavMenuItem("Home", "Index", "Northwind")
+                    @Html.NavMenuItem("Auto", "Categories", "Northwind")
+                    @Html.NavMenuItem("Basic", "Invoices", "Northwind")
+                    @Html.NavMenuItem("Paging", "Orders", "Northwind")
+                    @Html.NavMenuItem("Filters", "Filters", "Northwind")
+                    @Html.NavMenuItem("Parent Child", "ParentChild", "Northwind")
+                    @Html.NavMenuItem("Edit", "Edit", "Northwind")
+                </ul>
+            </div>
+        </div>
+        <div id="" class="container-fluid">
+            <div id="container" class="row-fluid">
+                <div id="SideNav" class="span2">
+                    <ul class="nav nav-pills nav-stacked affix">
+                        <li class="active"><a href="#Result">Result</a></li>
+                        <li><a href="#Config">Config</a></li>
+                        <li><a href="#ChildAction">Child Action</a></li>
+                        <li><a href="#Markup">Markup</a></li>
+                    </ul>
+                </div>  
+                <div class="span9">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+
+        @Scripts.Render(BundleConfig.BundlesJquery)
+        @Scripts.Render(BundleConfig.BundlesBootstrap)
+        @Html.MvcTableScript()
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        <script src="~/Scripts/bootstrap-datepicker.js"></script>
+        @RenderSection("scripts", required: false)
+        <script type="text/javascript">
+            $(function() {
+                var format = { format: 'yyyy-mm-dd' };
+                $('input').filter('[data-date="true"]').datepicker(format);
+            });
+        </script>
+    </body>
+</html>

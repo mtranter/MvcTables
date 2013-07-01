@@ -1,0 +1,78 @@
+﻿namespace MvcTables
+{
+    #region
+
+    using System.Collections.Specialized;
+    using System.Linq;
+
+    #endregion
+
+    internal class TableUrlManager : ITableUrlManager
+    {
+        private readonly string _actionUrl;
+        private readonly NameValueCollection _urlParams;
+
+        public TableUrlManager(string actionUrl, TableRequestModel requestModel, NameValueCollection routeValues)
+        {
+            _actionUrl = actionUrl;
+            _urlParams = routeValues.Merge(requestModel);
+        }
+
+        public string BaseUrl
+        {
+            get { return _actionUrl; }
+        }
+
+        public string SourceUrl
+        {
+            get { return _actionUrl + GetSeperator() + _urlParams.ToQueryString(); }
+        }
+
+        public string GetPagedUrl(int pageNumber)
+        {
+            var pageNumberProp = ReflectOn<TableRequestModel>.GetProperty(m => m.PageNumber);
+            return BaseUrl + GetSeperator() +
+                   CloneValues(pageNumberProp.Name, pageNumber.ToString(), _urlParams).ToQueryString();
+        }
+
+        public string GetSortUrl(string column)
+        {
+            var sortColProp = ReflectOn<TableRequestModel>.GetProperty(m => m.SortColumn);
+            var sortDirProp = ReflectOn<TableRequestModel>.GetProperty(m => m.SortAscending);
+            var sorted = column.Equals(_urlParams[sortColProp.Name]);
+            var ascending = false;
+            if (sorted)
+            {
+                ascending = _urlParams[sortDirProp.Name] == "True";
+            }
+            return BaseUrl + GetSeperator() +
+                   CloneValues(sortDirProp.Name, (!ascending).ToString(),
+                               CloneValues(sortColProp.Name, column, _urlParams)).ToQueryString();
+        }
+
+        public string GetPageSizeUrl(string pageSize)
+        {
+            var pageSizeProp = ReflectOn<TableRequestModel>.GetProperty(m => m.PageSize);
+            return BaseUrl + GetSeperator() + CloneValues(pageSizeProp.Name, pageSize, _urlParams).ToQueryString();
+        }
+
+        public string GetSeperator()
+        {
+            return (_actionUrl.Contains("?") ? "&" : "?");
+        }
+
+        public NameValueCollection CloneValues(string exceptKey, string newValue, NameValueCollection dict)
+        {
+            var clone = new NameValueCollection();
+
+            foreach (var key in dict.AllKeys.Where(s => s != exceptKey))
+            {
+                clone[key] = dict[key];
+            }
+
+            clone[exceptKey] = newValue;
+
+            return clone;
+        }
+    }
+}

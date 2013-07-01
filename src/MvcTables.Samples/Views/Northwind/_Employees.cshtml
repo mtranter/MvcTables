@@ -1,0 +1,3 @@
+﻿@model IEnumerable<MvcTables.Samples.NorthwindEntities.Employee>
+
+@Html.TableHelper("ReadonlyEmployees", "Northwind", new {employees = Model}).Table()

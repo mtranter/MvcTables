@@ -1,0 +1,31 @@
+﻿namespace MvcTables.Html
+{
+    #region
+
+    using System;
+    using System.IO;
+    using System.Linq.Expressions;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+    using Configuration;
+
+    #endregion
+
+    public static class MvcTableHelperExtensions
+    {
+        public static MvcTableHelper MvcTable<TModel>(this HtmlHelper helper, Expression<Func<MvcTable<TModel>>> tableDef)
+        {
+            var table = TableConfigurations.Configurations.Get<TModel>(tableDef.ReturnType);
+            return new MvcTableHelper(helper, table);
+        }
+
+        public static MvcHtmlString MvcTableScript(this HtmlHelper helper)
+        {
+            var resource =
+                typeof (TableResult<,>).Assembly.GetManifestResourceStream(@"MvcTable.Scripts.MvcTable.jQuery.js");
+            var reader = new StreamReader(resource);
+            var retval = @"<script type=""text/javascript"">" + reader.ReadToEnd() + "</script>";
+            return MvcHtmlString.Create(retval);
+        }
+    }
+}

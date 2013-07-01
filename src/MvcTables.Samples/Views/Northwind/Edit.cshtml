@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Edit";
+}
+
+
+@{
+    var table = Html.TableHelper("ListEmployees");
+}
+
+@table.Table()
+
+<div>
+    <a id="Validate" class="btn btn-info" href="#">Validate</a>
+    <a id="Save" class="btn btn-info" href="#">Save</a>
+    @Html.ValidationSummary()
+</div>
+<h4>Sent To Server:</h4>
+<div id="SentToServer" class="well"></div>
+<div id="msgbox" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="title"></h3>
+    </div>
+    <div class="modal-body">
+        <p id="msg"></p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn">OK!</a>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            var $editTable = $('table');
+            $('#Save').click(function(e) {
+                e.preventDefault();
+                if ($editTable.mvctable('validate')) {
+                    $editTable.mvctable('save', "Edit", function(d) {
+                        $('#SentToServer').empty().append(d);
+                        $(d).find('table').mvctable();
+                    });
+                } else {
+                    mvctable.msgbox('Cannot save invalid data!', 'Invalid stuff!');
+                }
+            });
+            $('#Validate').click(function(e) {
+                e.preventDefault();
+                var valid = $editTable.mvctable('validate');
+                if (valid) {
+                    mvctable.msgbox('All Valid Baby!', 'Validation');
+                }
+            });
+        });
+
+        var mvctable = (function($, ns, undefined) {
+            var $mbox;
+            var methods = {
+                msgbox: function(txt, header) {
+                    header = header || 'Message';
+                    $mbox = $mbox || $('#msgbox');
+                    $mbox.find('#msg').text(txt);
+                    $mbox.find('#title').text(header);
+                    $mbox.modal('show');
+                }
+            };
+
+            ns = $.extend({}, ns, methods);
+
+            return ns;
+        })(jQuery, mvctable || (mvctable = {}));
+    </script>
+}

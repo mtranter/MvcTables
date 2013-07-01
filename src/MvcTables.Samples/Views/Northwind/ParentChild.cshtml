@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "ParentChild";
+}
+<section id="Result">
+    <h4>Result</h4>
+    <div class="row-fluid">
+        <div class="span6">
+            <fieldset>
+                <legend>Orders</legend>
+                @Html.TableHelper("ListParentOrders").Table()
+                @Html.TableHelper("ListParentOrders").Pagination()
+            </fieldset>
+        </div>
+        <div class="span6">
+            <fieldset>
+                <legend>Details</legend>
+                @Html.TableHelper("ListChildOrderDetails").Table()
+            </fieldset>
+        </div>
+    </div>
+</section>
+
+<section id="Config">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+    public class ParentOrderConfigurator : TableConfigurator&lt;Order&gt;
+    {
+        public override void Configure(ITableConfiguration&lt;Order&gt; config)
+        {
+            config
+                .SetCssClass("table table-striped")
+                .ConfigurePagingControl(p => p.ShowPagingControl(true))
+                .ActionLinkColumn(c => c.OrderID, "","#", o => new {o.OrderID}, new {@@class="childFilter"})
+                .DisplayForColumn(c => c.Customer.ContactName)
+                .DisplayForColumn(c => c.Shipper.CompanyName)
+                .AddColumn(c => c.Order_Details.Sum(od => od.LineTotal), 
+                    cfg => cfg.FormatUsing(d => d.ToString("c")).SetHeaderText("Order Total"))
+                .SetFilterSelector("parentFilter")
+                .ConfigurePagingControl(p => p.SetContainerCssClass("pagination"));
+
+            SetName("ParentOrders");
+        }
+    }
+
+    public class ChildOrderDetailConfigurator : TableConfigurator&lt;Order_Detail&gt;
+    {
+        public override void Configure(ITableConfiguration&lt;Order_Detail&gt; config)
+        {
+            config
+                .SetCssClass("table table-striped")
+                .ConfigurePagingControl(p => p.ShowPagingControl(true))
+                .DisplayForColumn(c => c.Product.ProductName, 
+                    cfg => cfg.DefineFooter((h, rows) => rows.Any() ? "Order ID: " + h.ViewData.Model.First().OrderID : ""))
+                .DisplayForColumn(c => c.Quantity)
+                .DisplayForColumn(c => c.UnitPrice)
+                .DisplayForColumn(c => c.LineTotal, 
+                    cfg => cfg.DefineFooter((h,rows) => rows.Any() ? rows.Sum(od => od.LineTotal).ToString("c") : ""))
+                .ConfigurePagingControl(p => p.ShowPagingControl(false))
+                .SetFilterSelector("childFilter");
+                    
+            SetName("ChildOrderDetails");
+        }
+    }
+</pre>
+</section>
+<section id="ChildAction">
+    <h4>Child Action</h4>
+    <pre class="prettyprint table-config">
+        public ActionResult ListChildOrderDetails(TableRequestModel request, int? orderId)
+        {
+            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+            IQueryable&lt;Order_Detail&gt; orderDetails = entities.Order_Details.Expand(o =&gt; o.Product);
+            if (orderId == null)
+                orderDetails = orderDetails.Where(o =&gt; false);
+            else
+                orderDetails = orderDetails.Where(o =&gt; o.OrderID == orderId.Value);
+
+            return new TableResult&lt;Order_Detail&gt;(orderDetails, "ChildOrderDetails", request);
+        }
+
+        public ActionResult ListOrdersForFilters(TableRequestModel request, FiltersModel model)
+        {
+            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+            IQueryable&lt;Order&gt; orders = entities.Orders.Expand(o =&gt; o.Customer).Expand(o =&gt; o.Shipper).Expand(o =&gt; o.Order_Details);
+            if (!String.IsNullOrEmpty(model.SelectedCustomerId))
+                orders = orders.Where(o =&gt; o.CustomerID == model.SelectedCustomerId);
+            return new TableResult&lt;Order&gt;(orders, "Filters", request);
+        }
+</pre>
+
+</section>
+
+<section id="Markup">
+    <h4>Markup</h4>
+    <pre class="prettyprint table-config">
+&lt;div class=&quot;row-fluid&quot;&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Orders&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListParentOrders&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Details&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListChildOrderDetails&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>&lt;/div&gt;
+</pre>
+</section>

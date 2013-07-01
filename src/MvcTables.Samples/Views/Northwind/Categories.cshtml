@@ -1,0 +1,47 @@
+﻿@using MvcTables.Configuration
+@using MvcTables.Samples.App_Start
+@using MvcTables.Samples.NorthwindEntities
+
+@{
+    var table = Html.MvcTable(() => new CategoryTable());
+}
+<section id="Result">
+    <h4>Result</h4>
+    @table.Table()
+    @table.Pagination()
+
+</section>
+<section id="Config">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+    public class CategoryConfigurator : TableConfigurator&lt;Category&gt;
+    {
+        public void Configure(ITableConfiguration&lt;Category&gt; config)
+        {
+            config
+                .SetCssClass("table table-striped")
+                .ScaffoldAllColumns();
+        }
+    }
+</pre>
+
+</section>
+<section id="ChildAction">
+    <h4>Child Action</h4>
+    <pre class="prettyprint table-config">
+        public ActionResult ListCategories(TableRequestModel request)
+        {
+            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+            var categories = entities.Categories;
+          
+            return new TableResult&lt;Category&gt;(categories, request);
+        }
+</pre>
+
+</section>
+<section id="Markup">
+    <h4>Markup</h4>
+    <pre class="prettyprint table-config">
+    @@Html.Action("ListCategories", new { request = new TableRequestModel() })
+</pre>
+</section>

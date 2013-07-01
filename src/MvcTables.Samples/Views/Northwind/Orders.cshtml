@@ -1,0 +1,43 @@
+﻿
+<section id="Result">
+    <h4>Result</h4>
+    @Html.TableHelper("ListOrders").Table()
+    @Html.TableHelper("ListOrders").Pagination()
+</section>
+<section id="Config">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+        public class OrderConfigurator : ITableConfigurator&lt;Order&gt;
+        {
+            public void Configure(ITableConfiguration&lt;Order&gt; config)
+            {
+                config.SetCssClass("table table-striped")
+                       .ConfigurePagingControl(p => p.ShowPagingControl(true))
+                      .HiddenColumnFor(c => c.OrderID, cfg => cfg.Hide())
+                      .ActionLinkColumn(c => c.Customer.City, "Category", "Home")
+                      .DisplayForColumn(c => c.Shipper.CompanyName)
+                      .DisplayForColumn(c => c.ShipRegion)
+                      .DisplayForColumn(c => c.Order_Details[0].Quantity)
+                      .ConfigurePagingControl(p => p.SetContainerCssClass("pagination"));
+            }
+        }
+    </pre>
+</section>
+<section id="ChildAction">
+    <h4>Child Action</h4>
+    <pre class="prettyprint table-config">
+        public ActionResult ListOrders(TableRequestModel request, FiltersModel model)
+        {
+            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+            var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
+
+            return new TableResult&gt;Order&lt;(orders, request);
+        }
+</pre>
+</section>
+<section id="Markup">
+    <h4>Markup</h4>
+    <pre class="prettyprint table-config">
+    @@Html.Action("ListOrders", new { request = new TableRequestModel() })
+</pre>
+</section>

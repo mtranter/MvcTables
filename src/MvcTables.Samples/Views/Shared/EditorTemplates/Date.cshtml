@@ -1,0 +1,9 @@
+﻿@model DateTime
+
+@{
+    var formatedValue = ViewData.TemplateInfo.FormattedModelValue;
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName("");
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId("");
+}
+
+<input id="@id" name="@name" value="@formatedValue" data-date="true" type="text" />
