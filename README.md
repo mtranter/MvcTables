@@ -1,4 +1,4 @@
-MvcTable
+MvcTables
 ========
 
 An AJAX/HTML Table framework for ASP.Net MVC
@@ -34,7 +34,7 @@ Any class that inherits ``` TableConfigurator<TType> ``` can be registered int t
   <dd></dd>
 </dl>
 ```C#
-public class CategoryConfigurator : TableConfigurator<Category>
+public class CategoryTable : MvcTable<Category>
 {
     public override void Configure(ITableConfiguration<Category> config)
     {
@@ -49,7 +49,7 @@ public class CategoryConfigurator : TableConfigurator<Category>
   <dd></dd>
 </dl>
 ```C#
-    public class InvoiceConfigurator : TableConfigurator<Invoice>
+    public class InvoiceTable : MvcTable<Invoice>
     {
         public override void Configure(ITableConfiguration<Invoice> config)
         {
@@ -68,7 +68,7 @@ public class CategoryConfigurator : TableConfigurator<Category>
   <dd></dd>
 </dl>
 ```C#
-    public class OrderDetailConfigurator : TableConfigurator<Order_Detail>
+    public class OrderDetailTable : MvcTable<Order_Detail>
     {
         public override void Configure(ITableConfiguration<Order_Detail> config)
         {
