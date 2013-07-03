@@ -150,7 +150,6 @@
     <Compile Include="Configuration\PagingControlConfiguration.cs" />
     <Compile Include="Columns\PartialForColumn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflect.cs" />
     <Compile Include="Columns\ReflectedColumn.cs" />
     <Compile Include="Columns\ReflectedColumnBase.cs" />
     <Compile Include="Render\PaginationRender.cs" />

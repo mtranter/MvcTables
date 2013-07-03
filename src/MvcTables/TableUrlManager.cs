@@ -1,10 +1,12 @@
-﻿namespace MvcTables
+﻿
+
+namespace MvcTables
 {
     #region
 
     using System.Collections.Specialized;
     using System.Linq;
-
+    using ExpressionReflection;
     #endregion
 
     internal class TableUrlManager : ITableUrlManager
@@ -30,15 +32,15 @@
 
         public string GetPagedUrl(int pageNumber)
         {
-            var pageNumberProp = ReflectOn<TableRequestModel>.GetProperty(m => m.PageNumber);
+            var pageNumberProp = StaticReflector.GetMember<TableRequestModel, int>((t) => t.PageNumber);
             return BaseUrl + GetSeperator() +
                    CloneValues(pageNumberProp.Name, pageNumber.ToString(), _urlParams).ToQueryString();
         }
 
         public string GetSortUrl(string column)
         {
-            var sortColProp = ReflectOn<TableRequestModel>.GetProperty(m => m.SortColumn);
-            var sortDirProp = ReflectOn<TableRequestModel>.GetProperty(m => m.SortAscending);
+            var sortColProp = StaticReflector.GetMember<TableRequestModel, string>((t) => t.SortColumn);
+            var sortDirProp = StaticReflector.GetMember<TableRequestModel, bool>((t) => t.SortAscending);
             var sorted = column.Equals(_urlParams[sortColProp.Name]);
             var ascending = false;
             if (sorted)
@@ -52,7 +54,7 @@
 
         public string GetPageSizeUrl(string pageSize)
         {
-            var pageSizeProp = ReflectOn<TableRequestModel>.GetProperty(m => m.PageSize);
+            var pageSizeProp = StaticReflector.GetMember<TableRequestModel, int>((t) => t.PageSize);
             return BaseUrl + GetSeperator() + CloneValues(pageSizeProp.Name, pageSize, _urlParams).ToQueryString();
         }
 

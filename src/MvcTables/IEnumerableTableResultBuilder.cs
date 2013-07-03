@@ -9,5 +9,7 @@
     public interface IEnumerableTableResultBuilder<TModel>
     {
         TableResult<TTable, TModel> Build<TTable>(TableRequestModel model, int totalRows) where TTable : MvcTable<TModel>;
+
+        TableResult<DefaultMvcTable<TModel>, TModel> Default(TableRequestModel model, int totalRows);
     }
 }

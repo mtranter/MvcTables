@@ -27,6 +27,11 @@
             return View();
         }
 
+        public ActionResult EasyCategories()
+        {
+            return View();
+        }
+
         public ActionResult Orders()
         {
             return View();
@@ -68,11 +73,16 @@
             return PartialView("_Employees", employees);
         }
 
+        public ActionResult ListCategoriesDefault(TableRequestModel request)
+        {
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            return TableResult.From(entities.Categories).Default(request);
+        }
+
         public ActionResult ListEmployees(TableRequestModel request, bool readOnly = false)
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
-            var result = TableResult.From(entities.Employees).Build<EmployeeTable>(request);
-            return result;
+            return TableResult.From(entities.Employees).Build<EmployeeTable>(request);
         }
 
         public ActionResult ReadonlyEmployees(TableRequestModel request, IEnumerable<Employee> employees)
@@ -86,7 +96,6 @@
             var entities = new NorthwindEntities(NorthwindServiceUrl);
            
             return TableResult.From(entities.Invoices).Build<InvoiceTable>(request);
-            
         }
 
         public ActionResult ListCategories(TableRequestModel request)

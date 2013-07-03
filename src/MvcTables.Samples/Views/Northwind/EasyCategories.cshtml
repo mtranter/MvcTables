@@ -1,0 +1,33 @@
+﻿@using MvcTables.Configuration
+@using MvcTables.Samples.App_Start
+@using MvcTables.Samples.NorthwindEntities
+
+
+<section id="Result">
+    <h4>Result</h4>
+    @Html.Action("ListCategoriesDefault")
+</section>
+<section id="Config">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+    //None!!
+</pre>
+
+</section>
+<section id="ChildAction">
+    <h4>Child Action</h4>
+    <pre class="prettyprint table-config">
+        public ActionResult ListCategoriesDefault(TableRequestModel request)
+        {
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            return TableResult.From(entities.Categories).Default(request);
+        }
+</pre>
+
+</section>
+<section id="Markup">
+    <h4>Markup</h4>
+    <pre class="prettyprint table-config">
+    @@Html.Action("ListCategoriesDefault")
+</pre>
+</section>

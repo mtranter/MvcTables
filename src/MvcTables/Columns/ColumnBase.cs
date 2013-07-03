@@ -10,7 +10,7 @@
 
     #endregion
 
-    public abstract class ColumnBase<TModel> : IColumnConfiguration<TModel>, IColumnDefinition<TModel>
+    internal abstract class ColumnBase<TModel> : IColumnConfiguration<TModel>, IColumnDefinition<TModel>
     {
         private Func<TModel, dynamic> _columnDefFunc;
         private string _name;

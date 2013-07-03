@@ -133,7 +133,11 @@
                             {
                                 foreach (var col in _tableDefinition.Columns)
                                 {
-                                    using (new ComplexContentTag("td", col.CellAttributes, writer))
+                                    if (col.IsHidden)
+                                    {
+                                        col.FooterAttributes.WithStyle("display", "none");
+                                    }
+                                    using (new ComplexContentTag("td", col.FooterAttributes, writer))
                                     {
                                         writer.Write(col.GetFooterValue(rows, context, writer));
                                     }

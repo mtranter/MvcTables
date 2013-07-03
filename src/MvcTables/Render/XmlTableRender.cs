@@ -34,5 +34,26 @@ namespace MvcTables.Render
             var table = new XElement("table", columns, xrows);
             table.Save(context.HttpContext.Response.OutputStream);
         }
+
+        public void Render(IEnumerable<TModel> rows, TableRequestModel model, System.IO.TextWriter writer)
+        {
+            var columns = new XElement("columns");
+            columns.Add(_tableDefinition.Columns.Select(x => new XElement("column", x.Name)));
+            var xrows = new XElement("rows");
+            xrows.Add(
+                      rows.Select(
+                                  r =>
+                                  new XElement("row",
+                                               _tableDefinition.Columns.Select(
+                                                                               t =>
+                                                                               new XElement("cell", t.GetRawValue(r))))));
+            var table = new XElement("table", columns, xrows);
+            table.Save(writer);
+        }
+
+        public string MimeType
+        {
+            get { return "application/xml"; }
+        }
     }
 }

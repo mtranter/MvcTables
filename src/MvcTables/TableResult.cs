@@ -83,7 +83,7 @@
 
             var paginator = new Paginator(urlManager, _totalResults, _tableRequest.PageSize, 8, _tableRequest.PageNumber);
 
-            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context))
+            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || !BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context))
             {
                 if (String.IsNullOrEmpty(_tableRequest.SortColumn))
                 {

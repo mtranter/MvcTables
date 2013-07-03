@@ -7,7 +7,7 @@
         public abstract void Configure(IStaticTableConfiguration<TModel> config);
     }
 
-    internal class DefaultMvcTable<TModel> : MvcTable<TModel>
+    public sealed class DefaultMvcTable<TModel> : MvcTable<TModel>
     {
         private readonly string _action;
         private readonly string _controller;

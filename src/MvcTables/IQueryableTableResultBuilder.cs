@@ -9,5 +9,6 @@
     public interface IQueryableTableResultBuilder<TModel> : IEnumerableTableResultBuilder<TModel>
     {
         TableResult<TTable, TModel> Build<TTable>(TableRequestModel model) where TTable : MvcTable<TModel>;
+        TableResult<DefaultMvcTable<TModel>, TModel> Default(TableRequestModel model);
     }
 }
