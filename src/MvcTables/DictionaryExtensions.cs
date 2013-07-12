@@ -27,5 +27,10 @@
         {
             return source.Union(new RouteValueDictionary(other)).ToDictionary(k => k.Key, v => v.Value);
         }
+
+        public static IDictionary<TKey, TValue> Clone<TKey, TValue>(this IDictionary<TKey, TValue> source)
+        {
+            return new Dictionary<TKey, TValue>(source);
+        }
     }
 }

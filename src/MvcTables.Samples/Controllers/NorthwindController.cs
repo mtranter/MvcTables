@@ -47,6 +47,11 @@
             return View();
         }
 
+        public ActionResult KitchenSink()
+        {
+            return View();
+        }
+
         public ActionResult Filters()
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
@@ -114,10 +119,10 @@
 
         }
 
-        public ActionResult ListParentOrders(TableRequestModel request)
+        public ActionResult ListParentOrders(TableRequestModel request, string nameFilter)
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
-            var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
+            var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details).Where(o => o.Customer.CompanyName.Contains(nameFilter));
             return TableResult.From(orders).Build<ParentOrderTable>(request);
         }
 

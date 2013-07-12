@@ -45,7 +45,7 @@
                                                  new Dictionary<string, object>
                                                      {
                                                          {"class", "mvctable " + _tableDefinition.CssClass},
-                                                         {"data-source", _urlManager.BaseUrl},
+                                                         {"data-source", _urlManager.SourceUrl},
                                                          {"data-table-id", myId},
                                                          {"data-filter", _tableDefinition.FilterExpression}
                                                      }, writer))
@@ -56,7 +56,7 @@
                             {
                                 foreach (var col in _tableDefinition.Columns)
                                 {
-                                    var attributes = col.HeaderAttributes;
+                                    var attributes = col.HeaderAttributes.Clone();
                                     var sortAsc = model.SortAscending;
                                     var isSorted = model.SortColumn == col.SortExpression;
                                     var sortUrl = _urlManager.GetSortUrl(col.SortExpression);
@@ -83,7 +83,7 @@
                                         col.HeaderAttributes.WithStyle("display", "none");
                                     }
 
-                                    using (new ComplexContentTag("th", col.HeaderAttributes, writer))
+                                    using (new ComplexContentTag("th", attributes, writer))
                                     {
                                         if (col.IsSortable)
                                         {

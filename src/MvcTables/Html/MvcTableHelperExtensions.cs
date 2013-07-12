@@ -13,10 +13,10 @@
 
     public static class MvcTableHelperExtensions
     {
-        public static MvcTableHelper MvcTable<TModel>(this HtmlHelper helper, Expression<Func<MvcTable<TModel>>> tableDef)
+        public static MvcTableHelper<TModel> MvcTable<TModel>(this HtmlHelper helper, Expression<Func<MvcTable<TModel>>> tableDef)
         {
             var table = TableConfigurations.Configurations.Get<TModel>(tableDef.Body.Type);
-            return new MvcTableHelper(helper, table);
+            return new MvcTableHelper<TModel>(helper, table);
         }
 
         public static MvcHtmlString MvcTableScript(this HtmlHelper helper)

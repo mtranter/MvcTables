@@ -25,21 +25,22 @@
     function initQueryString(params) {
         return params ? '?' + Querystring.serialize(params).toQueryString() : '';
     }
+    
+    function getMyState() {
+        return new Querystring($(this).data('source').split('?')[1]).deserialize();
+    }
 
     function attachHandlers() {
         var $that = $(this);
         var id = $that.data('table-id');
         var filter = $that.data('filter');
 
-        //$('a.' + internalFilterClass).on('click.' + id + '.mvctable', function (e) {
-        //    e.preventDefault();
-        //    var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
-        //    methods.refresh.apply($that, [newVals]);
-        //});
 
         $('body').on('click.' + id + '.mvctable', 'a.' + filter, function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
+            var existingParams = getMyState.apply($that);
             var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
+            newVals = $.extend({}, existingParams, newVals);
             methods.refresh.apply($that, [newVals]);
         });
         
@@ -47,16 +48,20 @@
         $.each(['input', 'select', 'textarea'], function (_, v) {
             changeElements += (v + '.' + filter + ',');
         });
+        
         changeElements = changeElements.substr(0, changeElements.length - 1);
         $('body').on('change.' + id + '.mvctable', changeElements, function (e) {
             e.preventDefault();
-            var params = {};
+            var params = getMyState.apply($that);
             params[$(this).attr('name')] = $(this).val();
             methods.refresh.apply($that, [params]);
-        }); 
-        $('body').on('submit.' + id + '.mvctable', 'form[data-target="' + id + '"].' + filter, function (e) {
+        });
+        
+        $('body').on('submit.' + id + '.mvctable', 'form.' + filter, function (e) {
             e.preventDefault();
+            var existingParams = getMyState.apply($that);
             var params = new Querystring($(this).serialize()).deserialize();
+            params = $.extend({}, existingParams, params);
             methods.refresh.apply($that, [params]);
         });
     }
@@ -142,7 +147,7 @@
             params.RenderTable = params.RenderTable || true;
             params.RenderPager = params.RenderPager || true;
             var qs = initQueryString(params);
-            var url = $that.data('source') + qs;
+            var url = $that.data('source').split('?')[0] + qs;
             var id = $that.data('table-id');
             $.get(url, function(data) {
                 removeHandlers.apply($that);
