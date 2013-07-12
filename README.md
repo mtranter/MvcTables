@@ -25,7 +25,7 @@ Any class that inherits ``` TableConfigurator<TType> ``` can be registered int t
         protected void Application_Start()
         {
             //Regular MVC Setup hoo haa
-            FluentlyConfigure.FromAssembly().SameAsType<MvcApplication>();
+            ConfigureMvcTables.InTheSameAssembly.As<MvcApplication>();
         }
     }
 ```
