@@ -10,6 +10,9 @@
 
 // Original file name:
 // Generation date: 30/06/2013 17:10:55
+
+using System.ComponentModel.DataAnnotations;
+
 namespace MvcTables.Samples.NorthwindEntities
 {
     
@@ -1290,6 +1293,7 @@ namespace MvcTables.Samples.NorthwindEntities
         /// There are no comments for Property FirstName in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        [Required]
         public string FirstName
         {
             get

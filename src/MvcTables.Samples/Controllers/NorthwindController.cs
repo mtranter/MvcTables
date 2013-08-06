@@ -122,7 +122,11 @@
         public ActionResult ListParentOrders(TableRequestModel request, string nameFilter)
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
-            var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details).Where(o => o.Customer.CompanyName.Contains(nameFilter));
+            IQueryable<Order> orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
+            if (!String.IsNullOrEmpty(nameFilter))
+            {
+                orders = orders.Where(o => o.Customer.ContactName.Contains(nameFilter));
+            }
             return TableResult.From(orders).Build<ParentOrderTable>(request);
         }
 
