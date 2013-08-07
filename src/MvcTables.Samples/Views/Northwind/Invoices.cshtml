@@ -4,11 +4,11 @@
     var table = Html.MvcTable(() => new InvoiceTable());
 }
 
-<section id="Result">
+<section id="Result" class="spy-on-me">
     <h4>Result</h4>
     @table.Table()
 </section>
-<section id="Config">
+<section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
     public class CategoryConfigurator : ITableConfigurator&lt;Invoice&gt;
@@ -27,7 +27,7 @@
 </pre>
 
 </section>
-<section id="ChildAction">
+<section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
         public ActionResult ListCategories(TableRequestModel request)
@@ -40,7 +40,7 @@
 </pre>
 
 </section>
-<section id="Markup">
+<section id="Markup" class="spy-on-me">
     <h4>Markup</h4>
     <pre class="prettyprint table-config">
     @@Html.Action("ListInvoices", new { request = new TableRequestModel() })

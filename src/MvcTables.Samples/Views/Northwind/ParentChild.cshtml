@@ -4,7 +4,7 @@
     var parentTable = Html.MvcTable(() => new ParentOrderTable());
     var childTable = Html.MvcTable(() => new ChildOrderDetailTable());
 }
-<section id="Result">   
+<section id="Result" class="spy-on-me">   
     <h4>Result</h4>
     <div class="row-fluid">
         <div class="span6">
@@ -23,7 +23,7 @@
     </div>
 </section>
 
-<section id="Config">
+<section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
     public class ParentOrderConfigurator : TableConfigurator&lt;Order&gt;
@@ -66,7 +66,7 @@
     }
 </pre>
 </section>
-<section id="ChildAction">
+<section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
         public ActionResult ListChildOrderDetails(TableRequestModel request, int? orderId)
@@ -93,7 +93,7 @@
 
 </section>
 
-<section id="Markup">
+<section id="Markup" class="spy-on-me">
     <h4>Markup</h4>
     <pre class="prettyprint table-config">
 &lt;div class=&quot;row-fluid&quot;&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Orders&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListParentOrders&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Details&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListChildOrderDetails&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>&lt;/div&gt;

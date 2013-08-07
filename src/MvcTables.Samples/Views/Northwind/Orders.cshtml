@@ -2,13 +2,13 @@
 @{
     var table = Html.MvcTable(() => new OrderTable());
 }
-<section id="Result">
+<section id="Result" class="spy-on-me">
     <h4>Result</h4>
     
     @table.Table()
     @table.Pagination()
 </section>
-<section id="Config">
+<section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
         public class OrderConfigurator : ITableConfigurator&lt;Order&gt;
@@ -27,7 +27,7 @@
         }
     </pre>
 </section>
-<section id="ChildAction">
+<section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
         public ActionResult ListOrders(TableRequestModel request, FiltersModel model)
@@ -39,7 +39,7 @@
         }
 </pre>
 </section>
-<section id="Markup">
+<section id="Markup" class="spy-on-me">
     <h4>Markup</h4>
     <pre class="prettyprint table-config">
     @@Html.Action("ListOrders", new { request = new TableRequestModel() })
