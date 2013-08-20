@@ -90,6 +90,18 @@ public class CategoryTable : MvcTable<Category>
     }
 ```
 <dl>
+  <dt>Usage - Action Method</dt>
+  <dd></dd>
+</dl>
+```C#
+    public ActionResult ListEmployees(TableRequestModel request)
+    {
+        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+        
+        return new TableResult<Employee>(entities.Employees, request);
+    }
+```
+<dl>
   <dt>Runtime Configuration Overrides - Action Method</dt>
   <dd></dd>
 </dl>
@@ -97,10 +109,10 @@ public class CategoryTable : MvcTable<Category>
     public ActionResult ListEmployees(TableRequestModel request)
     {
         var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        var invoices = entities.Employees;
         
-        var result = new TableResult<Employee>(invoices, request);
+        var result = new TableResult<Employee>(entities.Employees, request);
         
+        // Override configuration
         result.Overrides.EditorForColumn(d => d.HireDate, cfg => cfg.SetIndex(1));
         return result;
     }
