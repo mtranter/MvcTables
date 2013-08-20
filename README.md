@@ -7,9 +7,10 @@ Supports:
 * paging, 
 * sorting,
 * filtering,
-* Edit/Display templates as cell markup,
-* Partial Views as cell markup,
+* MVC Edit/Display templates for cell markup,
+* Partial Views for cell markup,
 * HtmlHelper style column configuration
+* Fluent configuration
 
 Configuration
 -------------
@@ -89,7 +90,7 @@ public class CategoryTable : MvcTable<Category>
     }
 ```
 <dl>
-  <dt>Runtime Configuration Overrides</dt>
+  <dt>Runtime Configuration Overrides - Action Method</dt>
   <dd></dd>
 </dl>
 ```C#
