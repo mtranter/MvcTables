@@ -294,6 +294,7 @@
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\MvcTable.jQuery.js" />
+    <Content Include="Scripts\Spyify.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Service References\NorthwindEntities\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>

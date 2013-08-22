@@ -5,40 +5,39 @@
 @{
     var table = Html.MvcTable(() => new CategoryTable());
 }
-<section id="Result">
+<section id="Result" class="spy-on-me">
     <h4>Result</h4>
     @table.Table()
 
 </section>
-<section id="Config">
+<section id="Config"  class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
-    public class CategoryConfigurator : TableConfigurator&lt;Category&gt;
+    public class CategoryTable : MvcTable&lt;Category&gt;
     {
-        public void Configure(ITableConfiguration&lt;Category&gt; config)
+        public override void Configure(IStaticTableConfiguration&lt;Category&gt; config)
         {
             config
-                .SetCssClass("table table-striped")
-                .ScaffoldAllColumns();
+                .ScaffoldAllColumns()
+                .SetAction(&quot;ListCategories&quot;, &quot;Northwind&quot;)
+                .SetCssClass(&quot;table table-striped&quot;);
         }
     }
 </pre>
 
 </section>
-<section id="ChildAction">
+<section id="ChildAction"  class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
         public ActionResult ListCategories(TableRequestModel request)
         {
-            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-            var categories = entities.Categories;
-          
-            return new TableResult&lt;Category&gt;(categories, request);
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            return TableResult.From(entities.Categories).Build&lt;CategoryTable&gt;(request);
         }
 </pre>
 
 </section>
-<section id="Markup">
+<section id="Markup"  class="spy-on-me">
     <h4>Markup</h4>
     <pre class="prettyprint table-config">
     @@Html.Action("ListCategories", new { request = new TableRequestModel() })

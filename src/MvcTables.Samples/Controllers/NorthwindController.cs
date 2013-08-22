@@ -99,24 +99,20 @@
         public ActionResult ListInvoices(TableRequestModel request)
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
-           
             return TableResult.From(entities.Invoices).Build<InvoiceTable>(request);
         }
 
         public ActionResult ListCategories(TableRequestModel request)
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
-
             return TableResult.From(entities.Categories).Build<CategoryTable>(request);
         }
 
         public ActionResult ListOrders(TableRequestModel request, FiltersModel model)
         {
-            
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
             return TableResult.From(orders).Build<OrderTable>(request);
-
         }
 
         public ActionResult ListParentOrders(TableRequestModel request, string nameFilter)

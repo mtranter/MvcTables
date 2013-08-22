@@ -11,12 +11,12 @@
         @Styles.Render(BundleConfig.ContentBootstrap)
     
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-     
+        
     </head>
     <body data-spy="scroll" data-target="#SideNav">
         <div class="navbar">
             <div class="navbar-inner">
-                <a class="brand" href="#">MVC Table</a>
+                <a class="brand" href="#">MVC Tables</a>
                 <ul class="nav">
                     @Html.NavMenuItem("Home", "Index", "Northwind")
                     @Html.NavMenuItem("No Config", "EasyCategories", "Northwind")
@@ -32,11 +32,7 @@
         <div id="" class="container-fluid">
             <div id="container" class="row-fluid">
                 <div id="SideNav" class="span2">
-                    <ul class="nav nav-pills nav-stacked affix">
-                        <li class="active"><a href="#Result">Result</a></li>
-                        <li><a href="#Config">Config</a></li>
-                        <li><a href="#ChildAction">Child Action</a></li>
-                        <li><a href="#Markup">Markup</a></li>
+                    <ul id="SpyTargets" class="nav nav-pills nav-stacked affix">
                     </ul>
                 </div>  
                 <div class="span9">
@@ -51,11 +47,13 @@
         <script src="~/Scripts/jquery.validate.js"></script>
         <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
         <script src="~/Scripts/bootstrap-datepicker.js"></script>
+        <script src="~/Scripts/Spyify.js"></script> 
         @RenderSection("scripts", required: false)
         <script type="text/javascript">
             $(function() {
                 var format = { format: 'yyyy-mm-dd' };
                 $('input').filter('[data-date="true"]').datepicker(format);
+                $('#SpyTargets').spyify('.spy-on-me');
             });
         </script>
     </body>

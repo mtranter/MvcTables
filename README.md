@@ -7,9 +7,10 @@ Supports:
 * paging, 
 * sorting,
 * filtering,
-* Edit/Display templates as cell markup,
-* Partial Views as cell markup,
+* MVC Edit/Display templates for cell markup,
+* Partial Views for cell markup,
 * HtmlHelper style column configuration
+* Fluent configuration
 
 Configuration
 -------------
@@ -89,17 +90,29 @@ public class CategoryTable : MvcTable<Category>
     }
 ```
 <dl>
-  <dt>Runtime Configuration Overrides</dt>
+  <dt>Usage - Action Method</dt>
   <dd></dd>
 </dl>
 ```C#
     public ActionResult ListEmployees(TableRequestModel request)
     {
         var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        var invoices = entities.Employees;
         
-        var result = new TableResult<Employee>(invoices, request);
+        return new TableResult<Employee>(entities.Employees, request);
+    }
+```
+<dl>
+  <dt>Runtime Configuration Overrides - Action Method</dt>
+  <dd></dd>
+</dl>
+```C#
+    public ActionResult ListEmployees(TableRequestModel request)
+    {
+        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
         
+        var result = new TableResult<Employee>(entities.Employees, request);
+        
+        // Override configuration
         result.Overrides.EditorForColumn(d => d.HireDate, cfg => cfg.SetIndex(1));
         return result;
     }
