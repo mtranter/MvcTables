@@ -8,27 +8,68 @@
     var table = Html.MvcTable(() => new EmployeeTable());
 }
 
-@table.Table()
+<section id="table" class="spy-on-me">
+    <h4>Table</h4>
+    @table.Table()
+</section>
 
-<div>
-    <a id="Validate" class="btn btn-info" href="#">Validate</a>
-    <a id="Save" class="btn btn-info" href="#">Save</a>
-    @Html.ValidationSummary()
-</div>
-<h4>Sent To Server:</h4>
-<div id="SentToServer" class="well"></div>
-<div id="msgbox" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 id="title"></h3>
+<section id="actions" class="spy-on-me">
+    <h4>Actions</h4>
+    <div>
+        <a id="Validate" class="btn btn-info" href="#">Validate</a>
+        <a id="Save" class="btn btn-info" href="#">Save</a>
+        @Html.ValidationSummary()
     </div>
-    <div class="modal-body">
-        <p id="msg"></p>
+</section>
+<section id="data-sent" class="spy-on-me">
+    <h4>Sent To Server:</h4>
+    <div id="SentToServer" class="well"></div>
+    <div id="msgbox" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="title"></h3>
+        </div>
+        <div class="modal-body">
+            <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">OK!</a>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn">OK!</a>
-    </div>
-</div>
+</section>
+<section id="Config" class="spy-on-me">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+    public class EmployeeTable : MvcTable&lt;Employee&gt;
+    {
+        public override void Configure(IStaticTableConfiguration&lt;Employee&gt; config)
+        {
+            var ents = new NorthwindEntities.NorthwindEntities(new Uri(ConfigurationManager.AppSettings[&quot;NorthwindUrl&quot;]));
+            var titles = ents.Employees.Select(t =&gt; new {t.Title}).ToArray().Select(t =&gt; t.Title).Distinct();
+
+            config
+                .SetAction(&quot;ListEmployees&quot;, &quot;Northwind&quot;)
+                .SetCssClass(&quot;table table-striped&quot;)
+                .HiddenColumnFor(c =&gt; c.EmployeeID, cfg =&gt; cfg.Hide())
+                .EditorForColumn(e =&gt; e.FirstName)
+                .EditorForColumn(e =&gt; e.LastName)
+                .EditorForColumn(e =&gt; e.HomePhone)
+                .DropdownColumnFor(e =&gt; e.Title, titles, s =&gt; s, s =&gt; s)
+                .ConfigurePagingControl(p =&gt; p.SetContainerCssClass(&quot;pagination&quot;));
+        }
+    }
+</pre>
+</section>
+<section id="ChildAction" class="spy-on-me">
+    <h4>Child Action</h4>
+    <pre class="prettyprint table-config">
+        public ActionResult ListEmployees(TableRequestModel request, bool readOnly = false)
+        {
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            return TableResult.From(entities.Employees).Build&lt;EmployeeTable&gt;(request);
+        }
+</pre>
+</section>
 
 @section scripts
 {

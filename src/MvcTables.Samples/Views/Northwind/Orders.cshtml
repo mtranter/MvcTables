@@ -11,20 +11,20 @@
 <section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
-        public class OrderConfigurator : ITableConfigurator&lt;Order&gt;
+    public class OrderTable : MvcTable&lt;Order&gt;
+    {
+        public override void Configure(IStaticTableConfiguration&lt;Order&gt; config)
         {
-            public void Configure(ITableConfiguration&lt;Order&gt; config)
-            {
-                config.SetCssClass("table table-striped")
-                       .ConfigurePagingControl(p => p.ShowPagingControl(true))
-                      .HiddenColumnFor(c => c.OrderID, cfg => cfg.Hide())
-                      .ActionLinkColumn(c => c.Customer.City, "Category", "Home")
-                      .DisplayForColumn(c => c.Shipper.CompanyName)
-                      .DisplayForColumn(c => c.ShipRegion)
-                      .DisplayForColumn(c => c.Order_Details[0].Quantity)
-                      .ConfigurePagingControl(p => p.SetContainerCssClass("pagination"));
-            }
+            config.SetAction(&quot;ListOrders&quot;, &quot;Northwind&quot;)
+                  .SetCssClass(&quot;table table-striped&quot;)
+                  .HiddenColumnFor(c =&gt; c.OrderID, cfg =&gt; cfg.Hide())
+                  .ActionLinkColumn(c =&gt; c.Customer.City, &quot;Category&quot;, &quot;Home&quot;)
+                  .DisplayForColumn(c =&gt; c.Shipper.CompanyName)
+                  .DisplayForColumn(c =&gt; c.ShipRegion)
+                  .DisplayForColumn(c =&gt; c.Order_Details[0].Quantity)
+                  .ConfigurePagingControl(p =&gt; p.SetContainerCssClass(&quot;pagination&quot;));
         }
+    }
     </pre>
 </section>
 <section id="ChildAction" class="spy-on-me">
@@ -32,16 +32,9 @@
     <pre class="prettyprint table-config">
         public ActionResult ListOrders(TableRequestModel request, FiltersModel model)
         {
-            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-            var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
-
-            return new TableResult&gt;Order&lt;(orders, request);
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            var orders = entities.Orders.Expand(o =&gt; o.Customer).Expand(o =&gt; o.Shipper).Expand(o =&gt; o.Order_Details);
+            return TableResult.From(orders).Build&lt;OrderTable&gt;(request);
         }
-</pre>
-</section>
-<section id="Markup" class="spy-on-me">
-    <h4>Markup</h4>
-    <pre class="prettyprint table-config">
-    @@Html.Action("ListOrders", new { request = new TableRequestModel() })
 </pre>
 </section>

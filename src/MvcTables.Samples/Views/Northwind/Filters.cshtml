@@ -39,22 +39,19 @@
 <section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
-    public class OrderFilterConfigurator : TableConfigurator&lt;Order&gt;
+    public class OrderFilterTable : MvcTable&lt;Order&gt;
     {
-        public override void Configure(ITableConfiguration&lt;Order&gt; config)
+        public override void Configure(IStaticTableConfiguration&lt;Order&gt; config)
         {
-            config
-                .SetCssClass("table table-striped")
-                   .ConfigurePagingControl(p => p.ShowPagingControl(true))
-                  .HiddenColumnFor(c => c.OrderID, cfg => cfg.Hide())
-                  .DisplayForColumn(c => c.Customer.ContactName)
-                  .DisplayForColumn(c => c.Customer.City)
-                  .DisplayForColumn(c => c.Shipper.CompanyName)
-                  .DisplayForColumn(c => c.ShipRegion)
-                  .DisplayForColumn(c => c.Order_Details[0].Quantity)
-                  .ConfigurePagingControl(p => p.SetContainerCssClass("pagination"));
-
-            SetName("Filters");
+            config.SetAction(&quot;ListOrdersForFilters&quot;, &quot;Northwind&quot;)
+                  .SetCssClass(&quot;table table-striped&quot;)
+                  .HiddenColumnFor(c =&gt; c.OrderID, cfg =&gt; cfg.Hide())
+                  .DisplayForColumn(c =&gt; c.Customer.ContactName)
+                  .DisplayForColumn(c =&gt; c.Customer.City)
+                  .DisplayForColumn(c =&gt; c.Shipper.CompanyName)
+                  .DisplayForColumn(c =&gt; c.ShipRegion)
+                  .DisplayForColumn(c =&gt; c.Order_Details[0].Quantity)
+                  .ConfigurePagingControl(p =&gt; p.SetContainerCssClass(&quot;pagination&quot;));
         }
     }
 </pre>
@@ -63,20 +60,17 @@
 <section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
-    public ActionResult ListOrdersForFilters(TableRequestModel request, FiltersModel model)
-    {
-        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        IQueryable&ltOrder&gt; orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
-        if (!String.IsNullOrEmpty(model.SelectedCustomerId))
-            orders = orders.Where(o => o.CustomerID == model.SelectedCustomerId);
-        return new TableResult&ltOrder&gt(orders, "Filters", request);
-    }
+        public ActionResult ListOrdersForFilters(TableRequestModel request, FiltersModel model)
+        {
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            IQueryable&lt;Order&gt; orders =
+                entities.Orders.Expand(o =&gt; o.Customer).Expand(o =&gt; o.Shipper).Expand(o =&gt; o.Order_Details);
+            if (!String.IsNullOrEmpty(model.SelectedCustomerId))
+            {
+                orders = orders.Where(o =&gt; o.CustomerID == model.SelectedCustomerId);
+            }
+            return TableResult.From(orders).Build&lt;OrderFilterTable&gt;(request);
+        }
 </pre>
 
-</section>
-<section id="Markup" class="spy-on-me">
-    <h4>Markup</h4>
-    <pre class="prettyprint table-config">
-&lt;div class=&quot;row-fluid&quot;&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;form class = &quot;mvc-table-filter&quot;&gt;<br/>            &lt;fieldset&gt;<br/>                &lt;legend&gt;Form Updates&lt;/legend&gt;<br/>                &lt;label class=&quot;control-label&quot; for=&quot;inputEmail&quot;&gt;Customer&lt;/label&gt;<br/>                @@Html.DropDownListFor(m =&gt; m.SelectedCustomerId, Model.Customers, m =&gt; m.CustomerID, m =&gt; m.ContactName)<br/>                &lt;div&gt;<br/>                    &lt;input type=&quot;submit&quot; value=&quot;Search&quot; class=&quot;btn btn-primary&quot; /&gt;<br/>                &lt;/div&gt;<br/>            &lt;/fieldset&gt;<br/>        &lt;/form&gt;<br/>    &lt;/div&gt;<br/>    &lt;div class=&quot;span4 offset1&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Auto Updates&lt;/legend&gt;<br/>            &lt;label class=&quot;control-label&quot; for=&quot;inputEmail&quot;&gt;Customer&lt;/label&gt;<br/>            @@Html.DropDownListFor(m =&gt; m.SelectedCustomerId, Model.Customers, m =&gt; m.CustomerID, m =&gt; m.ContactName, new { @@class = &quot;mvc-table-filter&quot; })<br/><br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/><br/>&lt;/div&gt;
-</pre>
 </section>
