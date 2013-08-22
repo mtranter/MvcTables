@@ -4,7 +4,7 @@
     var parentTable = Html.MvcTable(() => new ParentOrderTable());
     var childTable = Html.MvcTable(() => new ChildOrderDetailTable());
 }
-<section id="Result">   
+<section id="Result" class="spy-on-me">   
     <h4>Result</h4>
     <div class="row-fluid">
         <div class="span6">
@@ -23,51 +23,54 @@
     </div>
 </section>
 
-<section id="Config">
-    <h4>Config</h4>
+<section id="ParentConfig" class="spy-on-me">
+    <h4>Parent Config</h4>
     <pre class="prettyprint table-config">
-    public class ParentOrderConfigurator : TableConfigurator&lt;Order&gt;
+    public class ParentOrderTable : MvcTable&lt;Order&gt;
     {
-        public override void Configure(ITableConfiguration&lt;Order&gt; config)
+        public override void Configure(IStaticTableConfiguration&lt;Order&gt; config)
         {
-            config
-                .SetCssClass("table table-striped")
-                .ConfigurePagingControl(p => p.ShowPagingControl(true))
-                .ActionLinkColumn(c => c.OrderID, "","#", o => new {o.OrderID}, new {@@class="childFilter"})
-                .DisplayForColumn(c => c.Customer.ContactName)
-                .DisplayForColumn(c => c.Shipper.CompanyName)
-                .AddColumn(c => c.Order_Details.Sum(od => od.LineTotal), 
-                    cfg => cfg.FormatUsing(d => d.ToString("c")).SetHeaderText("Order Total"))
-                .SetFilterSelector("parentFilter")
-                .ConfigurePagingControl(p => p.SetContainerCssClass("pagination"));
-
-            SetName("ParentOrders");
+            config.SetAction(&quot;ListParentOrders&quot;, &quot;Northwind&quot;)
+                  .SetCssClass(&quot;table table-striped&quot;)
+                  .ActionLinkColumn(c =&gt; c.OrderID, &quot;&quot;, &quot;#&quot;, o =&gt; new { o.OrderID }, new { @@class = ChildOrderDetailTable .Filter})
+                  .DisplayForColumn(c =&gt; c.Customer.ContactName)
+                  .DisplayForColumn(c =&gt; c.Shipper.CompanyName)
+                  .AddColumn(c =&gt; c.Total,
+                             cfg =&gt; cfg.FormatUsing(d =&gt; d.ToString(&quot;c&quot;)).IsSortable(false).SetHeaderText(&quot;Order Total&quot;))
+                  .ConfigurePagingControl(p =&gt; p.SetContainerCssClass(&quot;pagination&quot;));
         }
     }
-
-    public class ChildOrderDetailConfigurator : TableConfigurator&lt;Order_Detail&gt;
+        </pre>s
+</section>
+<section id="ChildConfig" class="spy-on-me">
+    <h4>Child Config</h4>
+    <pre class="prettyprint table-config">
+    public class ChildOrderDetailTable : MvcTable&lt;Order_Detail&gt;
     {
-        public override void Configure(ITableConfiguration&lt;Order_Detail&gt; config)
+
+        public override void Configure(IStaticTableConfiguration&lt;Order_Detail&gt; config)
         {
-            config
-                .SetCssClass("table table-striped")
-                .ConfigurePagingControl(p => p.ShowPagingControl(true))
-                .DisplayForColumn(c => c.Product.ProductName, 
-                    cfg => cfg.DefineFooter((h, rows) => rows.Any() ? "Order ID: " + h.ViewData.Model.First().OrderID : ""))
-                .DisplayForColumn(c => c.Quantity)
-                .DisplayForColumn(c => c.UnitPrice)
-                .DisplayForColumn(c => c.LineTotal, 
-                    cfg => cfg.DefineFooter((h,rows) => rows.Any() ? rows.Sum(od => od.LineTotal).ToString("c") : ""))
-                .ConfigurePagingControl(p => p.ShowPagingControl(false))
-                .SetFilterSelector("childFilter");
-                    
-            SetName("ChildOrderDetails");
+            config.SetAction(&quot;ListChildOrderDetails&quot;, &quot;Northwind&quot;)
+                .SetCssClass(&quot;table table-striped&quot;)
+                .SetFilterClass(Filter)
+                .DisplayForColumn(c =&gt; c.Product.ProductName,
+                                  cfg =&gt;
+                                  cfg.DefineFooter(
+                                                   (h, rows) =&gt;
+                                                   rows.Any() ? &quot;Order ID: &quot; + h.ViewData.Model.First().OrderID : &quot;&quot;))
+                .DisplayForColumn(c =&gt; c.Quantity)
+                .DisplayForColumn(c =&gt; c.UnitPrice)
+                .DisplayForColumn(c =&gt; c.LineTotal,
+                                  cfg =&gt;
+                                  cfg.DefineFooter(
+                                                   (h, rows) =&gt;
+                                                   rows.Any() ? rows.Sum(od =&gt; od.LineTotal).ToString(&quot;c&quot;) : &quot;&quot;));
         }
     }
 </pre>
 </section>
-<section id="ChildAction">
-    <h4>Child Action</h4>
+<section id="ChildAction" class="spy-on-me">
+    <h4>Child Actions</h4>
     <pre class="prettyprint table-config">
         public ActionResult ListChildOrderDetails(TableRequestModel request, int? orderId)
         {
@@ -91,11 +94,4 @@
         }
 </pre>
 
-</section>
-
-<section id="Markup">
-    <h4>Markup</h4>
-    <pre class="prettyprint table-config">
-&lt;div class=&quot;row-fluid&quot;&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Orders&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListParentOrders&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>    &lt;div class=&quot;span6&quot;&gt;<br/>        &lt;fieldset&gt;<br/>            &lt;legend&gt;Details&lt;/legend&gt;<br/>            @@Html.Action(&quot;ListChildOrderDetails&quot;)<br/>        &lt;/fieldset&gt;<br/>    &lt;/div&gt;<br/>&lt;/div&gt;
-</pre>
 </section>

@@ -4,45 +4,38 @@
     var table = Html.MvcTable(() => new InvoiceTable());
 }
 
-<section id="Result">
+<section id="Result" class="spy-on-me">
     <h4>Result</h4>
     @table.Table()
 </section>
-<section id="Config">
+<section id="Config" class="spy-on-me">
     <h4>Config</h4>
     <pre class="prettyprint table-config">
-    public class CategoryConfigurator : ITableConfigurator&lt;Invoice&gt;
+    public class InvoiceTable : MvcTable&lt;Invoice&gt;
     {
-        public void Configure(ITableConfiguration&lt;Invoice&gt; config)
+        public override void Configure(IStaticTableConfiguration&lt;Invoice&gt; config)
         {
             config
-                .SetCssClass("table table-striped")
-                .DisplayForColumn(m => m.ProductName)
-                .DisplayForColumn(m => m.Quantity)
-                .DisplayForColumn(m => m.Region)
-                .DisplayForColumn(m => m.Salesperson)
-                .EditorForColumn(m => m.Discount);
+                .SetAction(&quot;ListInvoices&quot;,&quot;Northwind&quot;)
+                .SetCssClass(&quot;table table-striped&quot;)
+                .DisplayForColumn(m =&gt; m.ProductName)
+                .DisplayForColumn(m =&gt; m.Quantity)
+                .DisplayForColumn(m =&gt; m.Region)
+                .DisplayForColumn(m =&gt; m.Salesperson)
+                .EditorForColumn(m =&gt; m.Discount);
         }
     }
 </pre>
 
 </section>
-<section id="ChildAction">
+<section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
-        public ActionResult ListCategories(TableRequestModel request)
+        public ActionResult ListInvoices(TableRequestModel request)
         {
-            var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-            var categories = entities.Categories;
-          
-            return new TableResult&lt;Category&lt;(categories, request);
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            return TableResult.From(entities.Invoices).Build&lt;InvoiceTable&gt;(request);
         }
 </pre>
 
-</section>
-<section id="Markup">
-    <h4>Markup</h4>
-    <pre class="prettyprint table-config">
-    @@Html.Action("ListInvoices", new { request = new TableRequestModel() })
-</pre>
 </section>
