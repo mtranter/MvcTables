@@ -11,11 +11,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("MvcTable")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("An AJAX/HTML Table framework for ASP.Net MVC")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mark Tranter")]
 [assembly: AssemblyProduct("MvcTable")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © Mark Tranter 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
