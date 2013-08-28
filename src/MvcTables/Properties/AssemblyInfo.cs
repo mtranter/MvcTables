@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("MvcTable")]
+[assembly: AssemblyTitle("MvcTables")]
 [assembly: AssemblyDescription("An AJAX/HTML Table framework for ASP.Net MVC")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mark Tranter")]
-[assembly: AssemblyProduct("MvcTable")]
+[assembly: AssemblyProduct("MvcTables")]
 [assembly: AssemblyCopyright("Copyright © Mark Tranter 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
