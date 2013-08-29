@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial release of this package, contains framework for ajax backed tables in mvc websites.</releaseNotes>
+    <releaseNotes>Minor corrections in package name and installation files.</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>MVC AJAX Table</tags>
   </metadata>
