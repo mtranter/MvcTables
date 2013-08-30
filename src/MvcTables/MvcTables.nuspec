@@ -11,6 +11,6 @@
     <description>$description$</description>
     <releaseNotes>Minor corrections in package name and installation files.</releaseNotes>
     <copyright>Copyright 2013</copyright>
-    <tags>MVC AJAX Table</tags>
+    <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
   </metadata>
 </package>
