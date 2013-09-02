@@ -38,7 +38,6 @@ Any class that inherits ``` TableConfigurator<TType> ``` can be registered int t
     public ActionResult ListEmployees(TableRequestModel request)
     {
         var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        
         return new TableResult<Employee>(entities.Employees, request);
     }
 ```
