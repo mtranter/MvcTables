@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MvcTable")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("mtranter")]
 [assembly: AssemblyProduct("MvcTable")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
