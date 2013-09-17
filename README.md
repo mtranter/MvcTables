@@ -12,6 +12,8 @@ Supports:
 * HtmlHelper style column configuration
 * Fluent configuration
 
+[Nuget Here](https://www.nuget.org/packages/MvcTables)
+
 Configuration
 -------------
 To save loads of messy boiler plate code clogging up Controller actions, the tables can be configured at startup.
