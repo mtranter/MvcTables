@@ -31,6 +31,17 @@ Any class that inherits ``` TableConfigurator<TType> ``` can be registered int t
     }
 ```
 <dl>
+  <dt>Usage - Action Method</dt>
+  <dd></dd>
+</dl>
+```C#
+    public ActionResult ListEmployees(TableRequestModel request)
+    {
+        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+        return new TableResult<Employee>(entities.Employees, request);
+    }
+```
+<dl>
   <dt>Auto Configuration</dt>
   <dd></dd>
 </dl>
@@ -87,18 +98,6 @@ public class CategoryTable : MvcTable<Category>
                     
             SetName("ChildOrderDetails");
         }
-    }
-```
-<dl>
-  <dt>Usage - Action Method</dt>
-  <dd></dd>
-</dl>
-```C#
-    public ActionResult ListEmployees(TableRequestModel request)
-    {
-        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        
-        return new TableResult<Employee>(entities.Employees, request);
     }
 ```
 <dl>

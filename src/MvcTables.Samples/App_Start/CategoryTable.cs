@@ -17,6 +17,4 @@
                 .SetCssClass("table table-striped");
         }
     }
-
-
 }

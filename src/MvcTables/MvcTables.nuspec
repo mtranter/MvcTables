@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Minor corrections in package name and installation files.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
+  </metadata>
+</package>

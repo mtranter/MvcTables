@@ -13,9 +13,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MvcTables")]
 [assembly: AssemblyDescription("An AJAX/HTML Table framework for ASP.Net MVC")]
 [assembly: AssemblyConfiguration("")]
+
 [assembly: AssemblyCompany("Mark Tranter, Michael Hancock")]
 [assembly: AssemblyProduct("MvcTables")]
 [assembly: AssemblyCopyright("Copyright © Mark Tranter 2013")]
+
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
