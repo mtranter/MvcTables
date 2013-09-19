@@ -26,13 +26,14 @@
             <fieldset>
                 <legend>Auto Updates</legend>
                 <label class="control-label" for="inputEmail">Customer</label>
-                @Html.DropDownListFor(m => m.SelectedCustomerId, Model.Customers, m => m.CustomerID, m => m.ContactName, new {@class = "mvc-table-filter"})
+                
+                @Html.DropDownListFor(m => m.SelectedCustomerId, Model.Customers, m => m.CustomerID, m => m.ContactName, new {@class = table.FilterClass})
 
             </fieldset>
         </div>
 
     </div>
-
+    @table.PageSizer(5,10,15,20)
     @table.Table()
 
 </section>

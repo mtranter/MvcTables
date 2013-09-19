@@ -12,6 +12,10 @@ Supports:
 * HtmlHelper style column configuration
 * Fluent configuration
 
+[Nuget Here](https://www.nuget.org/packages/MvcTables)
+
+[Blog Article](http://mtranter.com/2013/09/11/mvc-tables/)
+
 Configuration
 -------------
 To save loads of messy boiler plate code clogging up Controller actions, the tables can be configured at startup.
@@ -28,6 +32,17 @@ Any class that inherits ``` TableConfigurator<TType> ``` can be registered int t
             //Regular MVC Setup hoo haa
             ConfigureMvcTables.InTheSameAssembly.As<MvcApplication>();
         }
+    }
+```
+<dl>
+  <dt>Usage - Action Method</dt>
+  <dd></dd>
+</dl>
+```C#
+    public ActionResult ListEmployees(TableRequestModel request)
+    {
+        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
+        return new TableResult<Employee>(entities.Employees, request);
     }
 ```
 <dl>
@@ -87,18 +102,6 @@ public class CategoryTable : MvcTable<Category>
                     
             SetName("ChildOrderDetails");
         }
-    }
-```
-<dl>
-  <dt>Usage - Action Method</dt>
-  <dd></dd>
-</dl>
-```C#
-    public ActionResult ListEmployees(TableRequestModel request)
-    {
-        var entities = new NorthwindEntities.NorthwindEntities(NorthwindServiceUrl);
-        
-        return new TableResult<Employee>(entities.Employees, request);
     }
 ```
 <dl>

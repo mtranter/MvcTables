@@ -9,6 +9,9 @@
 
     #endregion
 
+    /// <summary>
+    /// Provides methods to bootstrap table configurations
+    /// </summary>
     public class ConfigureMvcTables : IAssemblyConfiguration
     {
 
@@ -45,6 +48,10 @@
             }
         }
 
+        /// <summary>
+        /// Returns an instance of <see cref="IAssemblyConfiguration"/> that will be used
+        /// to define the assembly to search for TableConfiguration definitions.
+        /// </summary>
         public static IAssemblyConfiguration InTheSameAssembly
         {
             get { return Instance.Value; }
