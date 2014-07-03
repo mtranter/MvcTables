@@ -36,11 +36,11 @@
             base.VisitLambda(node);
             Expression head = Expression.ArrayIndex(newParameter, Expression.Constant(_index));
 
-            do
+            while (_builders.Count > 0)
             {
                 var func = _builders.Pop();
                 head = func(head);
-            } while (_builders.Count > 0);
+            }
 
             return Expression.Lambda(head, newParameter);
         }
@@ -62,5 +62,12 @@
             _builders.Push(e => Expression.Property(e, node.Member.Name));
             return base.VisitMember(node);
         }
+
+        protected override Expression VisitGoto(GotoExpression node)
+        {
+            _builders.Push(e => Expression.Goto(node.Target));
+            return base.VisitGoto(node);
+        }
+        
     }
 }
