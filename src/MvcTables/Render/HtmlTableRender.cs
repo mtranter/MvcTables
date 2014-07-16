@@ -57,27 +57,31 @@
                                 foreach (var col in _tableDefinition.Columns)
                                 {
                                     var attributes = col.HeaderAttributes.Clone();
-                                    var sortAsc = model.SortAscending;
-                                    var isSorted = model.SortColumn == col.SortExpression;
-                                    var sortUrl = _urlManager.GetSortUrl(col.SortExpression);
-                                    var classMap = new[]
-                                                       {
-                                                           new
-                                                               {
-                                                                   Apply = col.IsSortable,
-                                                                   @class = "sortable"
-                                                               },
-                                                           new
-                                                               {
-                                                                   Apply = isSorted,
-                                                                   @class = sortAsc ? "sorted-asc" : "sorted-desc"
-                                                               }
-                                                       };
-                                    attributes["class"] = attributes.ContainsKey("class") ? attributes["class"] : "";
-                                    foreach (var cm in classMap.Where(cm => cm.Apply))
+                                    if (col.IsSortable)
                                     {
-                                        attributes["class"] += (" " + cm.@class);
+                                        var sortAsc = model.SortAscending;
+                                        var isSorted = model.SortColumn == col.SortExpression;
+                                        
+                                        var classMap = new[]
+                                            {
+                                                new
+                                                    {
+                                                        Apply = true,
+                                                        @class = "sortable"
+                                                    },
+                                                new
+                                                    {
+                                                        Apply = isSorted,
+                                                        @class = sortAsc ? "sorted-asc" : "sorted-desc"
+                                                    }
+                                            };
+                                            attributes["class"] = attributes.ContainsKey("class") ? attributes["class"] : "";
+                                            foreach (var cm in classMap.Where(cm => cm.Apply))
+                                            {
+                                                attributes["class"] += (" " + cm.@class);
+                                            }
                                     }
+
                                     if (col.IsHidden)
                                     {
                                         col.HeaderAttributes.WithStyle("display", "none");
@@ -87,6 +91,7 @@
                                     {
                                         if (col.IsSortable)
                                         {
+                                            var sortUrl = _urlManager.GetSortUrl(col.SortExpression);
                                             using (
                                                 new ComplexContentTag("a",
                                                                       new RouteValueDictionary(new {href = sortUrl})

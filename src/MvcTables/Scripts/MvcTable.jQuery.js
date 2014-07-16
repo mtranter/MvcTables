@@ -1,31 +1,28 @@
-﻿(function($, undefined) {
+﻿(function ($, undefined) {
 
     var settingsKey = '_mvc_table_';
-    var internalFilterClass = "mvctable-trigger";
     var defaults = {};
-    
-    function copyEvents(source, target) {
-        var evs = $._data(source[0], 'events');
-        for (var ev in evs) {
-            for (var i = 0; i < evs[ev].length; i++)
-                $.fn[ev].apply(target, [evs[ev][i].handler]);
-        }
+
+
+    function copyAttributes(from, to) {
+        var attributes = $(from).prop("attributes");
+
+        // loop through <select> attributes and apply them on <div>
+        $.each(attributes, function () {
+            $(to).attr(this.name, this.value);
+        });
+
     }
 
     function escapeText(txt) {
         return $('<div/>').text(txt).html();
     }
 
-    function removeHandlers() {
-        var $that = $(this);
-        var id = $that.data('table-id');
-        $('body').off('.' + id + '.mvctable');
-    }
 
     function initQueryString(params) {
         return params ? '?' + Querystring.serialize(params).toQueryString() : '';
     }
-    
+
     function getMyState() {
         return new Querystring($(this).data('source').split('?')[1]).deserialize();
     }
@@ -43,12 +40,12 @@
             newVals = $.extend({}, existingParams, newVals);
             methods.refresh.apply($that, [newVals]);
         });
-        
+
         var changeElements = '';
         $.each(['input', 'select', 'textarea'], function (_, v) {
             changeElements += (v + '.' + filter + ',');
         });
-        
+
         changeElements = changeElements.substr(0, changeElements.length - 1);
         $('body').on('change.' + id + '.mvctable', changeElements, function (e) {
             e.preventDefault();
@@ -56,7 +53,7 @@
             params[$(this).attr('name')] = $(this).val();
             methods.refresh.apply($that, [params]);
         });
-        
+
         $('body').on('submit.' + id + '.mvctable', 'form.' + filter, function (e) {
             e.preventDefault();
             var existingParams = getMyState.apply($that);
@@ -67,7 +64,7 @@
     }
 
     var methods = {
-        init: function(settings) {
+        init: function (settings) {
             return $(this).each(function (_, v) {
                 var $that = $(this);
                 var setts = $that.data(settingsKey);
@@ -78,9 +75,9 @@
                 attachHandlers.apply($that, []);
             });
         },
-        goToPage: function(page) {
+        goToPage: function (page) {
             return $(this).each(function (_, v) {
-                methods.refresh.apply(this, [{PageNumber: page}]);
+                methods.refresh.apply(this, [{ PageNumber: page }]);
             });
         },
         sortBy: function (column, asc) {
@@ -91,8 +88,8 @@
         },
         serialize: function () {
             var result = '';
-            $(this).first().find('tbody tr').each(function(i, r) {
-                $(r).find('input,select,textarea').each(function(_, ip) {
+            $(this).first().find('tbody tr').each(function (i, r) {
+                $(r).find('input,select,textarea').each(function (_, ip) {
                     var name = $(ip).attr('name');
                     if (name) {
                         result += ((name + '=' + escapeText($(ip).val())) + '&');
@@ -101,12 +98,12 @@
             });
             return result;
         },
-        validate: function() {
+        validate: function () {
             if (typeof $.fn.valid === 'function') {
                 return $(this).parents('form').valid();
             }
         },
-        save: function(url, ok , err) {
+        save: function (url, ok, err) {
             var stringToPost = methods.serialize.apply(this);
             var $that = this;
             var savingEvent = $.Event("saving.mvctable");
@@ -127,12 +124,12 @@
                 }
             });
         },
-        refreshTable: function(params) {
+        refreshTable: function (params) {
             params = params || {};
             params.RenderTable = true;
             params.RenderPager = false;
         },
-        refreshPaginator: function(params) {
+        refreshPaginator: function (params) {
             params = params || {};
             params.RenderTable = false;
             params.RenderPager = true;
@@ -149,8 +146,8 @@
             var qs = initQueryString(params);
             var url = $that.data('source').split('?')[0] + qs;
             var id = $that.data('table-id');
-            $.get(url, function(data) {
-                removeHandlers.apply($that);
+            $.get(url, function (data) {
+
                 var $newHtml = $(data);
                 if ($newHtml.length == 0)
                     return;
@@ -160,18 +157,18 @@
                     if ($newHtml.length == 1)
                         return;
                 }
+
                 if ($($newHtml[0]).is('.mvctable-container')) {
                     var $table = $($newHtml[0]).find('table');
-                    copyEvents($that, $table);
-                    $that.replaceWith($table);
+                    $($that).html($table.html());
+                    copyAttributes($table, $that);
                     var refreshedEvent = $.Event("refreshed.mvctable");
-                    $table.trigger(refreshedEvent);
-                    methods.init.apply($table, [{}]);
+                    $that.trigger(refreshedEvent);
                 }
             });
         }
     };
-    
+
     $.fn.mvctable = function (method) {
 
         if (methods[method]) {
@@ -184,7 +181,7 @@
 
     };
 
-    $(function() {
+    $(function () {
         $('.mvctable').mvctable();
     });
 
@@ -221,7 +218,7 @@
         }
     }
 
-    Querystring.serialize = function(obj) {
+    Querystring.serialize = function (obj) {
         var qs = '';
         for (var p in obj) {
             qs += (p + '=' + obj[p] + '&');
@@ -229,16 +226,16 @@
         return new Querystring(qs);
     };
 
-    Querystring.prototype.get = function(key, default_) {
+    Querystring.prototype.get = function (key, default_) {
         var value = this.params[key];
         return (value != null) ? value : default_;
     };
 
-    Querystring.prototype.contains = function(key) {
+    Querystring.prototype.contains = function (key) {
         var value = this.params[key];
         return (value != null);
     };
-    
+
     Querystring.prototype.addOrReplace = function (key, value) {
         var me = this;
         var obj = {};
@@ -247,26 +244,25 @@
             me.params[k] = obj[k];
         });
     };
-    
+
     Querystring.prototype.merge = function (otherQs) {
         var qs = new Querystring(this.toQueryString());
         qs.addOrReplace(otherQs.params);
         return qs;
     };
-    
-    Querystring.prototype.toQueryString = function() {
+
+    Querystring.prototype.toQueryString = function () {
         var retval = "";
         $.each(this.params, function (i, v) {
-            if(i && v)
+            if (i && v)
                 retval += i + "=" + v + "&";
         });
         return retval;
     };
-    
+
     Querystring.prototype.deserialize = function () {
         return this.params;
     };
 
 
 })(jQuery);
-
