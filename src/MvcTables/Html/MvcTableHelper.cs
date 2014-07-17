@@ -73,7 +73,8 @@ namespace MvcTables.Html
 
         public MvcHtmlString PageSizer(IEnumerable<int> pageSizeOptions, object htmlAttributes)
         {
-            var name = StaticReflection.GetPropertyGetMethodInfo((TableRequestModel m) => m.PageSize).Name.Substring("get_".Length);
+            var name = StaticReflection.StaticReflection.GetMember((TableRequestModel m) => m.PageSize).Name;
+
             var attributes = BuildAttributesWithFilterClass(htmlAttributes);
             return _helper.DropDownList(name,
                                         pageSizeOptions.Select(

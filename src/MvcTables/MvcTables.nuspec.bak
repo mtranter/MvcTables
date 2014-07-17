@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MvcTables</id>
+    <version>1.0.0.3</version>
+    <title>MvcTables</title>
+    <authors>mtranter mhancock</authors>
+    <owners>mtranter mhancock</owners>
+    <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An AJAX/HTML Table framework for ASP.Net MVC</description>
+    <releaseNotes>Add fix to bug in InstanceToIndexExpressionMaker.</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
+  </metadata>
+</package>
