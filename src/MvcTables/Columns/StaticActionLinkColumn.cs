@@ -24,7 +24,7 @@
             _linkText = linkText;
             _action = action;
             _controller = controller;
-            _routeValues = routeValues;
+            _routeValues = routeValues ?? ((m) => null);
             _htmlAttributes = htmlAttributes;
         }
 

@@ -12,6 +12,7 @@
             PreviousPageText = "<";
             NextPageText = ">";
             LastPageText = ">>";
+            IsDefault = true;
         }
 
         public string ContainerCssClass { get; private set; }
@@ -23,47 +24,56 @@
         public string PreviousPageText { get; private set; }
         public ITableDefinition TableDefinition { get; private set; }
 
+        internal bool IsDefault { get; private set; }
+
         #region IPagingControlConfiguration Members
 
         IPagingControlConfiguration IPagingControlConfiguration.SetContainerCssClass(string @class)
         {
             ContainerCssClass = @class;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetDisabledClass(string @class)
         {
             DisabledCssClass = @class;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetActiveClass(string @class)
         {
             ActiveCssClass = @class;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetPreviousPageText(string text)
         {
             PreviousPageText = text;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetNextPageText(string text)
         {
             NextPageText = text;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetFirstPageText(string text)
         {
             FirstPageText = text;
+            IsDefault = false;
             return this;
         }
 
         IPagingControlConfiguration IPagingControlConfiguration.SetLastPageText(string text)
         {
             LastPageText = text;
+            IsDefault = false;
             return this;
         }
 

@@ -48,7 +48,17 @@
 
         public PagingControlConfiguration PagingConfiguration
         {
-            get { return _runtimeDefiniton.IfIsNull(c => c.PagingConfiguration) ?? _staticModel.PagingConfiguration; }
+            get
+            {
+                if (_runtimeDefiniton != null && _runtimeDefiniton.PagingConfiguration != null &&
+                    !_runtimeDefiniton.PagingConfiguration.IsDefault)
+                {
+                    return _runtimeDefiniton.PagingConfiguration;
+                }
+
+                return _staticModel.PagingConfiguration;
+
+            }
         }
 
         public string Id

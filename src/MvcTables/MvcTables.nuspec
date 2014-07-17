@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>MvcTables</id>
-    <version>1.0.0.6</version>
+    <id>$id$</id>
+    <version>$version$</version>
     <title>MvcTables</title>
-    <authors>mtranter mhancock</authors>
+    <authors>$author$</authors>
     <owners>mtranter mhancock</owners>
     <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An AJAX/HTML Table framework for ASP.Net MVC</description>
-    <releaseNotes>Fix Nuget deployment</releaseNotes>
+    <releaseNotes>Upgrade ExpressionReflection reference</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
   </metadata>
