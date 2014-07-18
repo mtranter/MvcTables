@@ -1,29 +1,34 @@
 ﻿<div class="clearfix announce instapaper_body md">
-    <span class="name"><span class="octicon octicon-book"></span> README.md</span><article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1>
-<a name="mvctables" class="anchor" href="#mvctables"><span class="octicon octicon-link"></span></a>MvcTables</h1>
+    <article class="markdown-body entry-content" itemprop="mainContentOfPage">
+        <h1>MvcTables</h1>
 
-<p>An AJAX/HTML Table framework for ASP.Net MVC</p>
+        <p>An AJAX/HTML Table framework for ASP.Net MVC</p>
 
-<p>Supports:</p>
+        <p>Supports:</p>
 
-<ul>
-<li>paging, </li>
-<li>sorting,</li>
-<li>filtering,</li>
-<li>MVC Edit/Display templates for cell markup,</li>
-<li>Partial Views for cell markup,</li>
-<li>HtmlHelper style column configuration</li>
-<li>Fluent configuration</li>
-</ul><h2>
-<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+        <ul>
+            <li>paging, </li>
+            <li>sorting,</li>
+            <li>filtering,</li>
+            <li>MVC Edit/Display templates for cell markup,</li>
+            <li>Partial Views for cell markup,</li>
+            <li>HtmlHelper style column configuration</li>
+            <li>Fluent configuration</li>
+        </ul>
+        <h2>
+            <a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
-<p>To save loads of messy boiler plate code clogging up Controller actions, the tables can be configured at startup.
-Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be registered int the <em>global.asax</em> thusly:</p>
+        <p>
+            To save loads of messy boiler plate code clogging up Controller actions, the tables can be configured at startup.
+Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be registered int the <em>global.asax</em> thusly:
+        </p>
 
-<dl>
-<dt>Global.asax</dt>
-    <dd></dd>
-</dl><div class="highlight"><pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">MvcApplication</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">Web</span><span class="p">.</span><span class="n">HttpApplication</span>
+        <dl>
+            <dt>Global.asax</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">MvcApplication</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">Web</span><span class="p">.</span><span class="n">HttpApplication</span>
     <span class="p">{</span>
         <span class="k">protected</span> <span class="k">void</span> <span class="nf">Application_Start</span><span class="p">()</span>
         <span class="p">{</span>
@@ -31,22 +36,28 @@ Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be regis
             <span class="n">ConfigureMvcTables</span><span class="p">.</span><span class="n">InTheSameAssembly</span><span class="p">.</span><span class="n">As</span><span class="p">&lt;</span><span class="n">MvcApplication</span><span class="p">&gt;();</span>
         <span class="p">}</span>
     <span class="p">}</span>
-</pre></div>
+</pre>
+        </div>
 
-<dl>
-<dt>Usage - Action Method</dt>
-  <dd></dd>
-</dl><div class="highlight"><pre>    <span class="k">public</span> <span class="n">ActionResult</span> <span class="nf">ListEmployees</span><span class="p">(</span><span class="n">TableRequestModel</span> <span class="n">request</span><span class="p">)</span>
+        <dl>
+            <dt>Usage - Action Method</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre>    <span class="k">public</span> <span class="n">ActionResult</span> <span class="nf">ListEmployees</span><span class="p">(</span><span class="n">TableRequestModel</span> <span class="n">request</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="kt">var</span> <span class="n">entities</span> <span class="p">=</span> <span class="k">new</span> <span class="n">NorthwindEntities</span><span class="p">.</span><span class="n">NorthwindEntities</span><span class="p">(</span><span class="n">NorthwindServiceUrl</span><span class="p">);</span>
         <span class="k">return</span> <span class="k">new</span> <span class="n">TableResult</span><span class="p">&lt;</span><span class="n">Employee</span><span class="p">&gt;(</span><span class="n">entities</span><span class="p">.</span><span class="n">Employees</span><span class="p">,</span> <span class="n">request</span><span class="p">);</span>
     <span class="p">}</span>
-</pre></div>
+</pre>
+        </div>
 
-<dl>
-<dt>Auto Configuration</dt>
-  <dd></dd>
-</dl><div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">CategoryTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Category</span><span class="p">&gt;</span>
+        <dl>
+            <dt>Auto Configuration</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre><span class="k">public</span> <span class="k">class</span> <span class="nc">CategoryTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Category</span><span class="p">&gt;</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">ITableConfiguration</span><span class="p">&lt;</span><span class="n">Category</span><span class="p">&gt;</span> <span class="n">config</span><span class="p">)</span>
     <span class="p">{</span>
@@ -55,12 +66,15 @@ Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be regis
             <span class="p">.</span><span class="n">ScaffoldAllColumns</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
+</pre>
+        </div>
 
-<dl>
-<dt>Basic Configuration</dt>
-  <dd></dd>
-</dl><div class="highlight"><pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">InvoiceTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Invoice</span><span class="p">&gt;</span>
+        <dl>
+            <dt>Basic Configuration</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">InvoiceTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Invoice</span><span class="p">&gt;</span>
     <span class="p">{</span>
         <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">ITableConfiguration</span><span class="p">&lt;</span><span class="n">Invoice</span><span class="p">&gt;</span> <span class="n">config</span><span class="p">)</span>
         <span class="p">{</span>
@@ -73,12 +87,15 @@ Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be regis
                 <span class="p">.</span><span class="n">EditorForColumn</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Discount</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
-</pre></div>
+</pre>
+        </div>
 
-<dl>
-<dt>More Complex Configuration</dt>
-  <dd></dd>
-</dl><div class="highlight"><pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">OrderDetailTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Order_Detail</span><span class="p">&gt;</span>
+        <dl>
+            <dt>More Complex Configuration</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre>    <span class="k">public</span> <span class="k">class</span> <span class="nc">OrderDetailTable</span> <span class="p">:</span> <span class="n">MvcTable</span><span class="p">&lt;</span><span class="n">Order_Detail</span><span class="p">&gt;</span>
     <span class="p">{</span>
         <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">ITableConfiguration</span><span class="p">&lt;</span><span class="n">Order_Detail</span><span class="p">&gt;</span> <span class="n">config</span><span class="p">)</span>
         <span class="p">{</span>
@@ -97,12 +114,15 @@ Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be regis
             <span class="n">SetName</span><span class="p">(</span><span class="s">"ChildOrderDetails"</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
-</pre></div>
+</pre>
+        </div>
 
-<dl>
-<dt>Runtime Configuration Overrides - Action Method</dt>
-  <dd></dd>
-</dl><div class="highlight"><pre>    <span class="k">public</span> <span class="n">ActionResult</span> <span class="nf">ListEmployees</span><span class="p">(</span><span class="n">TableRequestModel</span> <span class="n">request</span><span class="p">)</span>
+        <dl>
+            <dt>Runtime Configuration Overrides - Action Method</dt>
+            <dd></dd>
+        </dl>
+        <div class="highlight">
+            <pre>    <span class="k">public</span> <span class="n">ActionResult</span> <span class="nf">ListEmployees</span><span class="p">(</span><span class="n">TableRequestModel</span> <span class="n">request</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="kt">var</span> <span class="n">entities</span> <span class="p">=</span> <span class="k">new</span> <span class="n">NorthwindEntities</span><span class="p">.</span><span class="n">NorthwindEntities</span><span class="p">(</span><span class="n">NorthwindServiceUrl</span><span class="p">);</span>
 
@@ -112,5 +132,7 @@ Any class that inherits <code>TableConfigurator&lt;TType&gt;</code> can be regis
         <span class="n">result</span><span class="p">.</span><span class="n">Overrides</span><span class="p">.</span><span class="n">EditorForColumn</span><span class="p">(</span><span class="n">d</span> <span class="p">=&gt;</span> <span class="n">d</span><span class="p">.</span><span class="n">HireDate</span><span class="p">,</span> <span class="n">cfg</span> <span class="p">=&gt;</span> <span class="n">cfg</span><span class="p">.</span><span class="n">SetIndex</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
         <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
     <span class="p">}</span>
-</pre></div></article>
-  </div>
+</pre>
+        </div>
+    </article>
+</div>
