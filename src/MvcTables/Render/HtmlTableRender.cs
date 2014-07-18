@@ -84,7 +84,7 @@
 
                                     if (col.IsHidden)
                                     {
-                                        col.HeaderAttributes.WithStyle("display", "none");
+                                        attributes.WithStyle("display", "none");
                                     }
 
                                     using (new ComplexContentTag("th", attributes, writer))
