@@ -7,6 +7,7 @@
 
     #endregion
 
+    [MetadataType(typeof(OrderMetaData))]
     public partial class Order
     {
         [Display(Name = "Total")]
@@ -15,5 +16,10 @@
         {
             get { return Order_Details.Sum(ol => ol.LineTotal); }
         }
+    }
+
+    public class OrderMetaData
+    {
+        
     }
 }
