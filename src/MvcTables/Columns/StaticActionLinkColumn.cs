@@ -1,4 +1,6 @@
-﻿namespace MvcTables
+﻿using System.Web.Routing;
+
+namespace MvcTables
 {
     #region
 
@@ -32,7 +34,7 @@
                                                    TextWriter textWriter)
         {
             var helper = HtmlHelperMock.GetHelper(model, context, textWriter);
-            return helper.ActionLink(_linkText, _action, _controller, _routeValues(model[rowIndex]), _htmlAttributes);
+            return helper.ActionLink(_linkText, _action, _controller, new RouteValueDictionary(_routeValues(model[rowIndex])), _htmlAttributes);
         }
 
         public override MvcHtmlString GetHeaderValue(ControllerContext context, TextWriter textWriter)
