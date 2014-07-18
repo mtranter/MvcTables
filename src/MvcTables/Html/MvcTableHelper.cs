@@ -45,9 +45,10 @@ namespace MvcTables.Html
             return Render(false, true);
         }
 
-        public MvcHtmlString DropdownFilter()
+        public MvcHtmlString DropdownFilter(string name, IEnumerable<SelectListItem> items)
         {
-            return Render(false, true);
+            var attributes = BuildAttributesWithFilterClass(null);
+            return _helper.DropDownList(name, items, attributes);
         }
 
         public MvcHtmlString TextBoxFilter(string name)
