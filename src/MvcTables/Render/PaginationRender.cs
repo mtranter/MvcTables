@@ -35,9 +35,12 @@
                                               {"data-target", tableId}
                                           }, writer))
             {
+                object movePreviousClass = _paginator.Current.PageNumber == _paginator.First.PageNumber
+                    ? new {@class = pageConfig.DisabledCssClass}
+                    : null;
                 using (new ComplexContentTag("ul", writer))
                 {
-                    using (new ComplexContentTag("li", writer))
+                    using (new ComplexContentTag("li", movePreviousClass, writer))
                     {
                         using (
                             new ComplexContentTag("a",
@@ -47,7 +50,7 @@
                             writer.Write(pageConfig.FirstPageText);
                         }
                     }
-                    using (new ComplexContentTag("li", writer))
+                    using (new ComplexContentTag("li", movePreviousClass, writer))
                     {
                         using (
                             new ComplexContentTag("a",
@@ -72,7 +75,12 @@
                             }
                         }
                     }
-                    using (new ComplexContentTag("li", writer))
+
+                    object moveNextClass = _paginator.Current.PageNumber == _paginator.Last.PageNumber
+                    ? new { @class = pageConfig.DisabledCssClass }
+                    : null;
+
+                    using (new ComplexContentTag("li", moveNextClass, writer))
                     {
                         using (
                             new ComplexContentTag("a",
@@ -82,7 +90,7 @@
                             writer.Write(pageConfig.NextPageText);
                         }
                     }
-                    using (new ComplexContentTag("li", writer))
+                    using (new ComplexContentTag("li", moveNextClass, writer))
                     {
                         using (
                             new ComplexContentTag("a",
