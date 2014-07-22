@@ -31,7 +31,10 @@
         protected override MvcHtmlString GetCellValueCore(TModel[] model, int rowIndex, TColumn column,
                                                           HtmlHelper<TModel[]> helper)
         {
-            return helper.ActionLink(FormatValue(column), _action, _controller,
+            var formattedValue = FormatValue(column);
+            if(String.IsNullOrEmpty(formattedValue))
+                return new MvcHtmlString(String.Empty);
+            return helper.ActionLink(formattedValue, _action, _controller,
                                      new RouteValueDictionary(_routeValues(model[rowIndex])), _htmlAttributes);
         }
     }
