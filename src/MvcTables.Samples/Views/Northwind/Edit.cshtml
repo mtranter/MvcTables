@@ -10,7 +10,9 @@
 
 <section id="table" class="spy-on-me">
     <h4>Table</h4>
-    @table.Table()
+    <form action="Employees/Save" method="POST">
+        @table.Table()
+    </form>
 </section>
 
 <section id="actions" class="spy-on-me">
@@ -60,6 +62,30 @@
     }
 </pre>
 </section>
+<section id="Model" class="spy-on-me">
+    <h4>View Models</h4>
+    <pre class="prettyprint table-config">
+        [MetadataType(typeof(Employee_Metadata))]
+        public partial class Employee
+        {
+            //Model properties defined in Northwind OData Reference
+        }
+
+        public class Employee_Metadata
+        {
+            [Required]
+            public string LastName { get; set; }
+
+            [Required]
+            public string FirstName { get; set; }
+
+            [Required]
+            [RegularExpression(@@&quot;\(\d{2,3}\)\s\d{3}-\d{4}&quot;)]
+            public string HomePhone { get; set; }
+        }
+
+</pre>
+</section>
 <section id="ChildAction" class="spy-on-me">
     <h4>Child Action</h4>
     <pre class="prettyprint table-config">
@@ -79,10 +105,8 @@
             $('#Save').click(function(e) {
                 e.preventDefault();
                 if ($editTable.mvctable('validate')) {
-                    $editTable.mvctable('save', "Edit", function(d) {
-                        $('#SentToServer').empty().append(d);
-                        $(d).find('table').mvctable();
-                    });
+                    var data = $editTable.mvctable('serialize');
+                    $('#SentToServer').empty().text(data);
                 } else {
                     mvctable.msgbox('Cannot save invalid data!', 'Invalid stuff!');
                 }

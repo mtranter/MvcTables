@@ -1,3 +1,6 @@
-﻿@model IEnumerable<MvcTables.Samples.NorthwindEntities.Employee>
+﻿@using MvcTables.Samples.App_Start
+@model IEnumerable<MvcTables.Samples.NorthwindEntities.Employee>
 
 @Html.TableHelper("ReadonlyEmployees", "Northwind", new {employees = Model}).Table()
+
+@Html.MvcTable(m => new EmployeeTable())

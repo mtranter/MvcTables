@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>MvcTables</id>
     <version>$version$</version>
     <title>MvcTables</title>
-    <authors>$author$</authors>
+    <authors>mtranter mhancock</authors>
     <owners>mtranter mhancock</owners>
     <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An AJAX/HTML Table framework for ASP.Net MVC</description>
-    <releaseNotes>Upgrade ExpressionReflection reference</releaseNotes>
+    <releaseNotes>Bug fix from Ollie to add disabled classes to pagination</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
   </metadata>

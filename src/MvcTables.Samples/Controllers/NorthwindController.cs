@@ -75,7 +75,7 @@
         [HttpPost]
         public ActionResult Edit(IEnumerable<Employee> employees)
         {
-            return PartialView("_Employees", employees);
+            return Json(employees);
         }
 
         public ActionResult ListCategoriesDefault(TableRequestModel request)

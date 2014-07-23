@@ -1223,6 +1223,7 @@ namespace MvcTables.Samples.NorthwindEntities
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Collections.ObjectModel.Collection<CustomerDemographic> _CustomerDemographics = new global::System.Collections.ObjectModel.Collection<CustomerDemographic>();
     }
+
     /// <summary>
     /// There are no comments for NorthwindModel.Employee in the schema.
     /// </summary>
@@ -1293,7 +1294,6 @@ namespace MvcTables.Samples.NorthwindEntities
         /// There are no comments for Property FirstName in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        [Required]
         public string FirstName
         {
             get

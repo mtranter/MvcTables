@@ -100,7 +100,10 @@
         },
         validate: function () {
             if (typeof $.fn.valid === 'function') {
-                return $(this).parents('form').valid();
+                var form = $(this).parents('form');
+                if (form.length) {
+                    return $(this).parents('form').valid();
+                }
             }
         },
         save: function (url, ok, err) {
@@ -114,8 +117,11 @@
                 type: "POST",
                 url: url,
                 data: stringToPost,
-                success: function () {
-                    $that.parents('form').data('validator').resetForm();
+                success: function() {
+                    var form = $that.parents('form');
+                    if (form.length) {
+                        form.data('validator').resetForm();
+                    }
                     var savedEvent = $.Event("saved.mvctable");
                     $that.trigger(savedEvent);
                     if (savedEvent.isDefaultPrevented())

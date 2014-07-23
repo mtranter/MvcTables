@@ -36,11 +36,7 @@
                 new ComplexContentTag("div", new Dictionary<string, object> {{"class", HtmlConstants.MvctableContainer}},
                                       writer))
             {
-                using (
-                    new ComplexContentTag("form", new Dictionary<string, object> {{"action", _urlManager.BaseUrl}},
-                                          writer)
-                    )
-                {
+                
                     using (new ComplexContentTag("table",
                                                  new Dictionary<string, object>
                                                      {
@@ -150,7 +146,7 @@
                             }
                         }
                     }
-                }
+                
             }
 
             writer.Flush();
