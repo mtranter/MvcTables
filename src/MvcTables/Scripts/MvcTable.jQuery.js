@@ -14,6 +14,23 @@
 
     }
 
+    function findTable() {
+        var $that = $(this);
+        var targetId = $that.attr('data-target');
+        if (targetId) {
+            return $('table.mvctable[data-table-id="' + targetId + '"]');
+        }
+        var tables = [];
+        $('table.mvctable').each(function () {
+            var filterClass = $(this).attr('data-filter');
+            if ($that.hasClass(filterClass)) {
+                tables.push($(this));
+            }
+        });
+
+        return tables;
+    }
+
     function escapeText(txt) {
         return $('<div/>').text(txt).html();
     }
@@ -28,38 +45,43 @@
     }
 
     function attachHandlers() {
-        var $that = $(this);
-        var id = $that.data('table-id');
-        var filter = $that.data('filter');
 
 
-        $('body').on('click.' + id + '.mvctable', 'a.' + filter, function (e) {
-            e.preventDefault();
-            var existingParams = getMyState.apply($that);
-            var newVals = new Querystring($(this).attr('href').split('?')[1]).deserialize();
-            newVals = $.extend({}, existingParams, newVals);
-            methods.refresh.apply($that, [newVals]);
+        $('body').on('click.mvctable', 'a', function (e) {
+            var $that = $(this);
+            var tables = findTable.apply($that);
+            $.each(tables, function (_, table) {
+                e.preventDefault();
+                var existingParams = getMyState.apply(table);
+                var newVals = new Querystring($that.attr('href').split('?')[1]).deserialize();
+                newVals = $.extend({}, existingParams, newVals);
+                methods.refresh.apply(table, [newVals]);
+            });
         });
 
-        var changeElements = '';
-        $.each(['input', 'select', 'textarea'], function (_, v) {
-            changeElements += (v + '.' + filter + ',');
+
+        $('body').on('change.mvctable', 'input, select, textarea', function (e) {
+            var $that = $(this);
+            var tables = findTable.apply($that);
+            $.each(tables, function (_, table) {
+                e.preventDefault();
+                var params = getMyState.apply(table);
+                params[$that.attr('name')] = $that.val();
+                methods.refresh.apply(table, [params]);
+            });
         });
 
-        changeElements = changeElements.substr(0, changeElements.length - 1);
-        $('body').on('change.' + id + '.mvctable', changeElements, function (e) {
-            e.preventDefault();
-            var params = getMyState.apply($that);
-            params[$(this).attr('name')] = $(this).val();
-            methods.refresh.apply($that, [params]);
-        });
+        $('body').on('submit.mvctable', 'form', function (e) {
+            var $that = $(this);
+            var tables = findTable.apply($that);
+            $.each(tables, function (_, table) {
+                e.preventDefault();
+                var existingParams = getMyState.apply(table);
+                var params = new Querystring($that.serialize()).deserialize();
+                params = $.extend({}, existingParams, params);
+                methods.refresh.apply(table, [params]);
 
-        $('body').on('submit.' + id + '.mvctable', 'form.' + filter, function (e) {
-            e.preventDefault();
-            var existingParams = getMyState.apply($that);
-            var params = new Querystring($(this).serialize()).deserialize();
-            params = $.extend({}, existingParams, params);
-            methods.refresh.apply($that, [params]);
+            });
         });
     }
 
@@ -117,7 +139,7 @@
                 type: "POST",
                 url: url,
                 data: stringToPost,
-                success: function() {
+                success: function () {
                     var form = $that.parents('form');
                     if (form.length) {
                         form.data('validator').resetForm();

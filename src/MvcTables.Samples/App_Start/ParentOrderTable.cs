@@ -9,7 +9,7 @@ namespace MvcTables.Samples.App_Start
         {
             config.SetAction("ListParentOrders", "Northwind")
                   .SetCssClass("table table-striped")
-                  .ActionLinkColumn(c => c.OrderID, "", "#", o => new { o.OrderID }, new { @class = ChildOrderDetailTable .Filter})
+                  .ActionLinkColumn(c => c.OrderID, "", "#", o => new { o.OrderID }, new { @class = ChildOrderDetailTable.Filter})
                   .DisplayForColumn(c => c.Customer.ContactName)
                   .DisplayForColumn(c => c.Shipper.CompanyName)
                   .AddColumn(c => c.Total,

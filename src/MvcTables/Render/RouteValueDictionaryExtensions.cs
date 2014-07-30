@@ -10,6 +10,13 @@
 
     internal static class RouteValueDictionaryExtensions
     {
+        public static TDict WithAttribute<TDict>(this TDict dict, string attribute, string value)
+            where TDict : IDictionary<string, object>
+        {
+            dict.Add(attribute, value);
+            return dict;
+        }
+
         public static TDict WithClass<TDict>(this TDict dict, string filter)
             where TDict : IDictionary<string, object>
         {
