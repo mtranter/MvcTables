@@ -94,7 +94,6 @@
                 settings = settings || {};
                 setts = $.extend({}, defaults, settings);
                 $that.data(settingsKey, setts);
-                attachHandlers.apply($that, []);
             });
         },
         goToPage: function (page) {
@@ -197,6 +196,7 @@
         }
     };
 
+    
     $.fn.mvctable = function (method) {
 
         if (methods[method]) {
@@ -210,6 +210,7 @@
     };
 
     $(function () {
+        attachHandlers();
         $('.mvctable').mvctable();
     });
 

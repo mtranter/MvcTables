@@ -91,7 +91,7 @@ namespace MvcTables.Html
         private RouteValueDictionary BuildAttributesWithFilterClass(object htmlAttributes)
         {
             var attributes = new RouteValueDictionary(htmlAttributes);
-            attributes.WithClass( _tableDefinition.FilterExpression);
+            attributes.WithClass( _tableDefinition.FilterExpression).WithAttribute("data-target", _tableDefinition.Id);
             return attributes;
         }
 
