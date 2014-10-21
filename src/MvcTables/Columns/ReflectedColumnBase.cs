@@ -68,8 +68,10 @@
 
         protected Expression<Func<TModel[], TColumn>> ArrayIndexExpression(TModel[] source, int rowIndex)
         {
-            var visitor = new InstanceToIndexExpressionMaker<TModel>(rowIndex);
-            return (Expression<Func<TModel[], TColumn>>) visitor.Visit(ColumnDefinition);
+            
+            return
+                (Expression<Func<TModel[], TColumn>>)
+                InstanceToIndexExpressionMaker<TModel>.Replace(rowIndex, ColumnDefinition);
         }
 
         public override object GetRawValue(TModel model)

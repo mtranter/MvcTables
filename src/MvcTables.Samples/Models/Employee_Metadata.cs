@@ -21,4 +21,6 @@ namespace MvcTables.Samples.NorthwindEntities
         [RegularExpression(@"\(\d{2,3}\)\s\d{3}-\d{4}")]
         public string HomePhone { get; set; }
     }
+
+    
 }

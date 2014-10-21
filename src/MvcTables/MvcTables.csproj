@@ -125,6 +125,7 @@
     <Compile Include="Configuration\ITableConfigurator.cs" />
     <Compile Include="Configuration\MvcTable.cs" />
     <Compile Include="EnumerableTableResultBuilder.cs" />
+    <Compile Include="ExpressionEvaluator.cs" />
     <Compile Include="Html\MvcTableHelper.cs" />
     <Compile Include="Html\MvcTableHelperExtensions.cs" />
     <Compile Include="IEnumerableTableResultBuilder.cs" />
