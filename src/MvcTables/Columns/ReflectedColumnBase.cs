@@ -21,6 +21,7 @@
             ColumnDefinition = columnDefinition;
             IsSortable = true;
             ShowRawValue = true;
+            FormatUsingFunction = c => c.ToString();
         }
 
         protected Expression<Func<TModel, TColumn>> ColumnDefinition { get; private set; }
