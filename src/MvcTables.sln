@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1C15F2
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Tests", "MvcTables.Tests\MvcTables.Tests.csproj", "{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

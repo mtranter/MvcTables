@@ -16,13 +16,19 @@ namespace MvcTables
     ///     Used so HtmlHelpers generate Form compatible 'name' attributes for &lt;input/&gt; elements
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    internal class InstanceToIndexExpressionMaker<TModel> : ExpressionVisitor
+    internal class InstanceToIndexExpressionMaker<TModel> 
     {
         public static Expression<Func<TModel[], TColumn>> Replace<TColumn>(int index, Expression<Func<TModel, TColumn>> lambdaExpression)
         {
-            var visitor = new ExpressionReplacementVisitor(index, lambdaExpression);
-            var lambda = visitor.Visit(lambdaExpression);
-            return (Expression<Func<TModel[], TColumn>>) lambda;
+            var newParam = Expression.Parameter(typeof(TModel[]));
+            var replacement = Expression.ArrayIndex(newParam, Expression.Constant(index));
+
+            var visitor = new ExpressionReplacementVisitor(replacement, lambdaExpression.Parameters.First());
+            
+            
+            var newBody = visitor.Visit(lambdaExpression.Body);
+
+            return Expression.Lambda<Func<TModel[], TColumn>>(newBody, newParam);
         }
 
         class ExpressionReplacementVisitor : ExpressionVisitor
@@ -31,12 +37,17 @@ namespace MvcTables
             private readonly ParameterExpression _newParam, _oldParam;
             private readonly BinaryExpression _replacement;
 
-            public ExpressionReplacementVisitor(int index, LambdaExpression expression)
+            public ExpressionReplacementVisitor(BinaryExpression replacement, ParameterExpression oldParam)
             {
-        
-                _newParam = Expression.Parameter(typeof(TModel[]));
-                _replacement = Expression.ArrayIndex(_newParam, Expression.Constant(index));
-                _oldParam = expression.Parameters.First();
+                _oldParam = oldParam;
+                _replacement = replacement;
+
+            }
+
+            public override Expression Visit(Expression node)
+            {
+                var retval =  base.Visit(node);
+                return retval;
             }
 
             protected override Expression VisitLambda<T>(Expression<T> node)
@@ -45,8 +56,6 @@ namespace MvcTables
 
                 return Expression.Lambda(ex.Body, _newParam);
             }
-
-
 
             protected override Expression VisitIndex(IndexExpression node)
             {
@@ -77,6 +86,23 @@ namespace MvcTables
                 return base.VisitMember(node);
             }
 
+            protected override Expression VisitGoto(GotoExpression node)
+            {
+                if (node.Value == _oldParam)
+                {
+                    return _replacement;
+                }
+                return base.VisitGoto(node);
+            }
+
+            protected override Expression VisitParameter(ParameterExpression node)
+            {
+                if (node == _oldParam)
+                {
+                    return _replacement;
+                }
+                return base.VisitParameter(node);
+            }
             
         }
 
