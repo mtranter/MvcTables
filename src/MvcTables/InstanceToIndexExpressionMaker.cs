@@ -62,7 +62,7 @@ namespace MvcTables
             {
                 if (node.Object == _oldParam)
                 {
-                    return Expression.Call(_replacement, node.Method);
+                    return Expression.Call(_replacement, node.Method, node.Arguments);
                 }
                 return base.VisitMethodCall(node);
             }
