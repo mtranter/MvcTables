@@ -41,7 +41,7 @@
     }
 
     function getMyState() {
-        return new Querystring($(this).data('source').split('?')[1]).deserialize();
+        return new Querystring($(this).attr('data-source').split('?')[1]).deserialize();
     }
 
     function attachHandlers() {
