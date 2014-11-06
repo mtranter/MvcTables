@@ -67,6 +67,7 @@
                 e.preventDefault();
                 var params = getMyState.apply(table);
                 params[$that.attr('name')] = $that.val();
+                params['PageNumber'] = 1;
                 methods.refresh.apply(table, [params]);
             });
         });
