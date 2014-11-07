@@ -333,6 +333,7 @@
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Northwind\KitchenSink.cshtml" />
     <Content Include="Views\Northwind\EasyCategories.cshtml" />
+    <Content Include="Views\Northwind\Shippers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

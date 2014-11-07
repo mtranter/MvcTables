@@ -28,13 +28,20 @@
         public void Add<TTable, TModel>(TableConfiguration<TModel> table)
             where TTable : MvcTable<TModel>
         {
+            // Keep only one node per each MvcTableType
+            var oldTableConfig = _tableConfigs.FirstOrDefault(x => x.MvcTableType == typeof(TTable));
+            if (oldTableConfig != null)
+            {
+                _tableConfigs.Remove(oldTableConfig);
+            }
+
             _tableConfigs.Add(new MvcTableStoreNode(table, typeof (TTable)));
         }
 
         internal ITableConfiguration<TModel> BuildDefault<TModel>(string action, string controller, string area)
         {
             var table = new DefaultMvcTable<TModel>(action, controller, area);
-            var config = new TableConfiguration<TModel>();
+            var config = GetDefaultTableConfiguration<TModel>();
             table.Configure(config);
             this.Add<DefaultMvcTable<TModel>, TModel>(config);
             return config;
@@ -62,6 +69,11 @@
             where TTable : MvcTable<TModel>
         {
             return this.Get<TTable, TModel>() ?? (BuildDefault<TModel>(action, controller, area) as ITableDefinition<TModel>);
+        }
+
+        public TableConfiguration<TModel> GetDefaultTableConfiguration<TModel>()
+        {
+            return new TableConfiguration<TModel>();
         }
 
         class MvcTableStoreNode
