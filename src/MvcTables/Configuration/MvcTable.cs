@@ -25,4 +25,12 @@
             config.SetAction(_action, _controller, _area).ScaffoldAllColumns();
         }
     }
+
+    public sealed class ViewConfigedMvcTable<TModel> : MvcTable<TModel>
+    {
+        public override void Configure(IStaticTableConfiguration<TModel> config)
+        {
+            // All configuration shall be set up outside this class.
+        }
+    }
 }
