@@ -28,6 +28,10 @@
             config.SetAction(&quot;ListShippers&quot;, &quot;Northwind&quot;);
             config.DisplayForColumn(x =&gt; x.CompanyName);
             config.EditorForColumn(x =&gt; x.Phone);
+            config.AddRazorColumn(&quot;Razor Column&quot;, @@&lt;text&gt;
+                                                &lt;div&gt;CompanyName: @@item.CompanyName&lt;/div&gt;
+                                                &lt;div&gt;Phone: @@item.Phone&lt;/div&gt;
+                                            &lt;/text&gt;);
         });
     }
     </pre>

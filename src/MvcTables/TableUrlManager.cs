@@ -43,8 +43,8 @@ namespace MvcTables
             {
                 return null;
             }
-            var sortColProp = StaticReflector.GetMember<TableRequestModel, string>((t) => t.SortColumn);
-            var sortDirProp = StaticReflector.GetMember<TableRequestModel, bool>((t) => t.SortAscending);
+            var sortColProp = StaticReflection.GetMember<TableRequestModel, string>((t) => t.SortColumn);
+            var sortDirProp = StaticReflection.GetMember<TableRequestModel, bool>((t) => t.SortAscending);
             var sorted = column.Equals(_urlParams[sortColProp.Name]);
             var ascending = false;
             if (sorted)
