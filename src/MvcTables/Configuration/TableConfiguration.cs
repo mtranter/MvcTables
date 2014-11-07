@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Configuration
+﻿using System.Web.WebPages;
+
+namespace MvcTables.Configuration
 {
     #region
 
@@ -13,7 +15,7 @@
 
     #endregion
 
-    internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>
+    internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>, IViewTableConfiguration<TModel>
     {
         
         private static readonly MethodInfo AddColumnMethod =
@@ -294,5 +296,13 @@
         }
 
         #endregion
+
+        public IViewTableConfiguration<TModel> AddRazorColumn(string columnTitle, Func<TModel, HelperResult> template, Action<IColumnConfiguration<TModel>> columnConfiguration = null)
+        {
+            var config = new RazorColumn<TModel>(columnTitle, template);
+            columnConfiguration.ExecuteIfNotNull(config);
+            _columns.Add(config);
+            return this;
+        }
     }
 }

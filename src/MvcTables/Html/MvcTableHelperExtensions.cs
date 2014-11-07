@@ -29,7 +29,7 @@
         }
 
         public static MvcTableHelper<TModel> MvcTable<TModel>(this HtmlHelper helper,
-            Action<IStaticTableConfiguration<TModel>> customize)
+            Action<IViewTableConfiguration<TModel>> customize)
         {
             var config = TableConfigurations.Configurations.GetDefaultTableConfiguration<TModel>();
             customize(config);

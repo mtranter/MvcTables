@@ -39,6 +39,10 @@ namespace MvcTables
 
         public string GetSortUrl(string column)
         {
+            if (string.IsNullOrEmpty(column))
+            {
+                return null;
+            }
             var sortColProp = StaticReflector.GetMember<TableRequestModel, string>((t) => t.SortColumn);
             var sortDirProp = StaticReflector.GetMember<TableRequestModel, bool>((t) => t.SortAscending);
             var sorted = column.Equals(_urlParams[sortColProp.Name]);
