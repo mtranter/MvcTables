@@ -27,5 +27,16 @@
             var retval = @"<script type=""text/javascript"">" + reader.ReadToEnd() + "</script>";
             return MvcHtmlString.Create(retval);
         }
+
+        public static MvcTableHelper<TModel> MvcTable<TModel>(this HtmlHelper helper,
+            Action<IViewTableConfiguration<TModel>> customize)
+        {
+            var config = TableConfigurations.Configurations.GetDefaultTableConfiguration<TModel>();
+            customize(config);
+
+            TableConfigurations.Configurations.Add<ViewConfigedMvcTable<TModel>, TModel>(config);
+
+            return new MvcTableHelper<TModel>(helper, config);
+        }
     }
 }

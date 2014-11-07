@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Configuration
+﻿using System.Web.WebPages;
+
+namespace MvcTables.Configuration
 {
     #region
 
@@ -9,6 +11,13 @@
 
     #endregion
 
+
+    public interface IViewTableConfiguration<TModel> : IStaticTableConfiguration<TModel>
+    {
+        IViewTableConfiguration<TModel> AddRazorColumn(string columnTitle, Func<TModel, HelperResult> template,
+                                                       Action<IColumnConfiguration<TModel>> columnConfiguration = null);
+    }
+    
     public interface IStaticTableConfiguration<TModel> : ITableConfiguration<TModel> 
     {
         /// <summary>

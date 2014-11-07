@@ -120,6 +120,7 @@
     <Compile Include="Columns\ActionLinkForColumn.cs" />
     <Compile Include="Columns\ColumnBase.cs" />
     <Compile Include="Columns\ColumnCollection.cs" />
+    <Compile Include="Columns\RazorColumn.cs" />
     <Compile Include="Configuration\ConfigureMvcTables.cs" />
     <Compile Include="Configuration\IAssemblyConfiguration.cs" />
     <Compile Include="Configuration\ITableConfigurator.cs" />
