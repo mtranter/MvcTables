@@ -87,10 +87,23 @@
             {
                 if (String.IsNullOrEmpty(_tableRequest.SortColumn))
                 {
-                    var firstSortable = runtimeConfig.Columns.FirstOrDefault(c => c.IsSortable);
-                    if (firstSortable != null)
+                    IColumnDefinition<TModel> sortColumn = null;
+                    bool? sortAscending = null;
+
+                    if (!String.IsNullOrEmpty(runtimeConfig.DefaultSortColumn))
                     {
-                        _tableRequest.SortColumn = firstSortable.SortExpression;
+                        sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.Name == runtimeConfig.DefaultSortColumn);
+                        sortAscending = runtimeConfig.DefaultSortAscending;
+                    }
+                
+                    if (sortColumn == null)
+                        sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.IsSortable);
+    
+                    if (sortColumn != null)
+                    {
+                        _tableRequest.SortColumn = sortColumn.SortExpression;
+                        if (sortAscending.HasValue)
+                            _tableRequest.SortAscending = sortAscending.Value;
                     }
                 }
 

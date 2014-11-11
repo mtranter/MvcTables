@@ -14,6 +14,7 @@
             config
                 .SetAction("ListInvoices","Northwind")
                 .SetCssClass("table table-striped")
+                .SetDefaultSortColumn(m => m.Salesperson, true)
                 .DisplayForColumn(m => m.ProductName)
                 .DisplayForColumn(m => m.Quantity)
                 .DisplayForColumn(m => m.Region)

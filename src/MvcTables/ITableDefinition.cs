@@ -16,6 +16,8 @@
         string Action { get; }
         string Controller { get; }
         string Area { get; }
+        string DefaultSortColumn { get; }
+        bool? DefaultSortAscending { get; }
     }
 
     internal interface ITableDefinition<in TModel> : ITableDefinition

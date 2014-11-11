@@ -61,7 +61,25 @@ namespace MvcTables.Configuration
             private set;
         }
 
+        public string DefaultSortColumn { get; private set; }
+
+        public bool? DefaultSortAscending { get; private set; }
+
         #region ITableConfiguration<TModel> Members
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultSortColumn(string column, bool sortAscending)
+        {
+            DefaultSortColumn = column;
+            DefaultSortAscending = sortAscending;
+            return this;
+        }
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultSortColumn<TColumn>(Expression<Func<TModel, TColumn>> columnDefinition, bool sortAscending)
+        {
+            DefaultSortColumn = ExpressionHelper.GetExpressionText(columnDefinition);
+            DefaultSortAscending = sortAscending;
+            return this;
+        }
 
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetCssClass(string @class)
         {
