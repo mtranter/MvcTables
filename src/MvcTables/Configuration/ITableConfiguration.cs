@@ -55,6 +55,15 @@ namespace MvcTables.Configuration
     public interface ITableConfiguration<TModel> : IFluentInterface
     {
         /// <summary>
+        /// Sets the deafult page size of the table
+        /// </summary>
+        /// <param name="pageSize">The number of rows</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> SetDefaultPageSize(int pageSize);
+
+        /// <summary>
         /// Sets the Column that will be sorted by default and the sort order
         /// </summary>
         /// <param name="column">The name of the column to sory by</param>

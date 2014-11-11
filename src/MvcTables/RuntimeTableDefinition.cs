@@ -40,6 +40,14 @@
             }
         }
 
+        public int? DefaultPageSize
+        {
+            get
+            {
+                return _runtimeDefiniton.IfIsNull(r => r.DefaultPageSize) ?? _staticModel.DefaultPageSize;
+            }
+        }
+
         public IEnumerable<IColumnDefinition<TModel>> Columns
         {
             get

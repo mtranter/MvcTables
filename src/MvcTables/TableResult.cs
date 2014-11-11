@@ -81,7 +81,12 @@
 
             var urlManager = InitUrlManager(context);
 
-            var paginator = new Paginator(urlManager, _totalResults, _tableRequest.PageSize, 8, _tableRequest.PageNumber);
+            if (!_tableRequest.PageSize.HasValue)
+            { 
+                _tableRequest.PageSize = runtimeConfig.DefaultPageSize.HasValue ? runtimeConfig.DefaultPageSize.Value : 10; 
+            }
+
+            var paginator = new Paginator(urlManager, _totalResults, _tableRequest.PageSize.Value, 8, _tableRequest.PageNumber);
 
             if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || !BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context))
             {

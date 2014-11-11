@@ -58,7 +58,7 @@ namespace MvcTables
 
         public string GetPageSizeUrl(string pageSize)
         {
-            var pageSizeProp = StaticReflection.GetMember<TableRequestModel, int>((t) => t.PageSize);
+            var pageSizeProp = StaticReflection.GetMember<TableRequestModel, int>((t) => t.PageSize.Value);
             return BaseUrl + GetSeperator() + CloneValues(pageSizeProp.Name, pageSize, _urlParams).ToQueryString();
         }
 

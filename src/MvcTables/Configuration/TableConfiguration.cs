@@ -65,7 +65,15 @@ namespace MvcTables.Configuration
 
         public bool? DefaultSortAscending { get; private set; }
 
+        public int? DefaultPageSize { get; private set; }
+
         #region ITableConfiguration<TModel> Members
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultPageSize(int pageSize)
+        {
+            DefaultPageSize = pageSize;
+            return this;
+        }
 
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultSortColumn(string column, bool sortAscending)
         {

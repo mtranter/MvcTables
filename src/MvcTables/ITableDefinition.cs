@@ -18,6 +18,7 @@
         string Area { get; }
         string DefaultSortColumn { get; }
         bool? DefaultSortAscending { get; }
+        int? DefaultPageSize { get; }
     }
 
     internal interface ITableDefinition<in TModel> : ITableDefinition

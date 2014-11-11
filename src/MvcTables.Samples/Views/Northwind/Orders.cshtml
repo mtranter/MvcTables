@@ -17,6 +17,7 @@
         {
             config.SetAction(&quot;ListOrders&quot;, &quot;Northwind&quot;)
                   .SetCssClass(&quot;table table-striped&quot;)
+                  .SetDefaultPageSize(15)
                   .HiddenColumnFor(c =&gt; c.OrderID, cfg =&gt; cfg.Hide())
                   .ActionLinkColumn(c =&gt; c.Customer.City, &quot;Category&quot;, &quot;Home&quot;)
                   .DisplayForColumn(c =&gt; c.Shipper.CompanyName)
