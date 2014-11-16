@@ -1,0 +1,2 @@
+install:
+  - ps: .\src\.nuget\nuget.exe restore .\src\MvcTables.sln
