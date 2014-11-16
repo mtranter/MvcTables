@@ -23,7 +23,31 @@
         {
             get { return _runtimeDefiniton.IfIsNull(r => r.CssClass) ?? _staticModel.CssClass; }
         }
-        
+
+        public string DefaultSortColumn
+        {
+            get
+            {
+                return _runtimeDefiniton.IfIsNull(r => r.DefaultSortColumn) ?? _staticModel.DefaultSortColumn;
+            }
+        }
+
+        public bool? DefaultSortAscending
+        {
+            get
+            {
+                return _runtimeDefiniton.IfIsNull(r=>r.DefaultSortAscending) ?? _staticModel.DefaultSortAscending;
+            }
+        }
+
+        public int? DefaultPageSize
+        {
+            get
+            {
+                return _runtimeDefiniton.IfIsNull(r => r.DefaultPageSize) ?? _staticModel.DefaultPageSize;
+            }
+        }
+
         public IEnumerable<IColumnDefinition<TModel>> Columns
         {
             get

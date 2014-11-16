@@ -8,18 +8,15 @@
 
     public class TableRequestModel
     {
-        private const int DefaultPageSize = 10;
-
         public TableRequestModel()
         {
             SortAscending = true;
             PageNumber = 1;
-            PageSize = DefaultPageSize;
         }
 
         public int PageNumber { get; set; }
 
-        public int PageSize { get; set; }
+        public int? PageSize { get; set; }
 
         public string SortColumn { get; set; }
 

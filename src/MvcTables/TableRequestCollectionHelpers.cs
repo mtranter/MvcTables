@@ -13,16 +13,16 @@
         {
             return
                 rows.SortBy(model.SortColumn, model.SortAscending)
-                    .Skip(model.PageSize*(model.PageNumber - 1))
-                    .Take(model.PageSize);
+                    .Skip(model.PageSize.Value*(model.PageNumber - 1))
+                    .Take(model.PageSize.Value);
         }
 
         public static IEnumerable<TModel> PaginateRows<TModel>(this IEnumerable<TModel> rows, TableRequestModel model)
         {
             return
                 rows.SortBy(model.SortColumn, model.SortAscending)
-                    .Skip(model.PageSize*(model.PageNumber - 1))
-                    .Take(model.PageSize);
+                    .Skip(model.PageSize.Value*(model.PageNumber - 1))
+                    .Take(model.PageSize.Value);
         }
     }
 }
