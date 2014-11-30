@@ -1,2 +1,8 @@
 install:
   - ps: .\src\.nuget\nuget.exe restore .\src\MvcTables.sln
+
+assembly_info:
+  patch: true
+  
+build:
+  publish_nuget: true
