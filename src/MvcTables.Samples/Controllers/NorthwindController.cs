@@ -51,7 +51,8 @@ namespace MvcTables.Samples.Controllers
 
         public ActionResult ParentChild()
         {
-            return View();
+            var currentOrder = new NorthwindEntities(NorthwindServiceUrl).Orders.First();
+            return View(new{orderId = currentOrder.OrderID});
         }
 
         public ActionResult KitchenSink()
