@@ -12,4 +12,7 @@
     <copyright>Copyright 2014</copyright>
     <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
   </metadata>
+  <files>
+    <file src="MvcTablesBootstraper.cs.pp" target="content\App_Start\MvcTablesBootstraper.cs.pp" />
+  </files>
 </package>
