@@ -1,16 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables", "MvcTables\MvcTables.csproj", "{88536637-8F02-4936-BBB9-5E627B09A7A4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Samples", "MvcTables.Samples\MvcTables.Samples.csproj", "{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}"
-EndProject
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1C15F26A-24F9-44D6-872C-7D28C0864AC3}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables", "MvcTables\MvcTables.csproj", "{88536637-8F02-4936-BBB9-5E627B09A7A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Samples", "MvcTables.Samples\MvcTables.Samples.csproj", "{0A8B0EE4-042A-4CA5-8CFE-16D52D80A53E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTables.Tests", "MvcTables.Tests\MvcTables.Tests.csproj", "{D5C40EF2-9D2C-408F-81BC-D8BC3D35A72E}"
 EndProject
