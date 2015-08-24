@@ -39,6 +39,10 @@ namespace MvcTables
 
         public string GetSortUrl(string column)
         {
+            if (string.IsNullOrEmpty(column))
+            {
+                return null;
+            }
             var sortColProp = StaticReflection.GetMember<TableRequestModel, string>((t) => t.SortColumn);
             var sortDirProp = StaticReflection.GetMember<TableRequestModel, bool>((t) => t.SortAscending);
             var sorted = column.Equals(_urlParams[sortColProp.Name]);
@@ -54,7 +58,7 @@ namespace MvcTables
 
         public string GetPageSizeUrl(string pageSize)
         {
-            var pageSizeProp = StaticReflection.GetMember<TableRequestModel, int>((t) => t.PageSize);
+            var pageSizeProp = StaticReflection.GetMember<TableRequestModel, int>((t) => t.PageSize.Value);
             return BaseUrl + GetSeperator() + CloneValues(pageSizeProp.Name, pageSize, _urlParams).ToQueryString();
         }
 

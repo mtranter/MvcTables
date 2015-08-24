@@ -9,8 +9,11 @@
     <projectUrl>https://github.com/mtranter/MvcTables</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An AJAX/HTML Table framework for ASP.Net MVC</description>
-    <releaseNotes>Fix issue around multiple tables in single page</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>mvc ajax table jquery datatable grid iqueryable razor</tags>
   </metadata>
+  <files>
+    <file src="MvcTablesBootstraper.cs.pp" target="content\App_Start\MvcTablesBootstraper.cs.pp" />
+    <file src="Scripts\MvcTable.jQuery.js" target="content\Scripts\MvcTable.jQuery.js" />
+  </files>
 </package>

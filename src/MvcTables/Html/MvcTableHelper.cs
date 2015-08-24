@@ -98,10 +98,14 @@ namespace MvcTables.Html
 
         private MvcHtmlString Render(bool table, bool pager)
         {
-            var routevals = new RouteValueDictionary();
+            var routevals = new RouteValueDictionary(_helper.ViewData.Model);
             routevals[HtmlConstants.RenderTableRouteValue] = table;
             routevals[HtmlConstants.RenderPaginationRouteValue] = pager;
             routevals["area"] = _tableDefinition.Area;
+            foreach (var key in _helper.ViewData.Keys)
+            {
+                routevals.Add(key, _helper.ViewData[key]);
+            }
             return _helper.Action(_tableDefinition.Action, _tableDefinition.Controller, routevals);
         }
     }

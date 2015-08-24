@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Configuration
+﻿using System.Web.WebPages;
+
+namespace MvcTables.Configuration
 {
     #region
 
@@ -13,7 +15,7 @@
 
     #endregion
 
-    internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>
+    internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>, IViewTableConfiguration<TModel>
     {
         
         private static readonly MethodInfo AddColumnMethod =
@@ -59,7 +61,33 @@
             private set;
         }
 
+        public string DefaultSortColumn { get; private set; }
+
+        public bool? DefaultSortAscending { get; private set; }
+
+        public int? DefaultPageSize { get; private set; }
+
         #region ITableConfiguration<TModel> Members
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultPageSize(int pageSize)
+        {
+            DefaultPageSize = pageSize;
+            return this;
+        }
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultSortColumn(string column, bool sortAscending)
+        {
+            DefaultSortColumn = column;
+            DefaultSortAscending = sortAscending;
+            return this;
+        }
+
+        ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultSortColumn<TColumn>(Expression<Func<TModel, TColumn>> columnDefinition, bool sortAscending)
+        {
+            DefaultSortColumn = ExpressionHelper.GetExpressionText(columnDefinition);
+            DefaultSortAscending = sortAscending;
+            return this;
+        }
 
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetCssClass(string @class)
         {
@@ -294,5 +322,13 @@
         }
 
         #endregion
+
+        public IViewTableConfiguration<TModel> AddRazorColumn(string columnTitle, Func<TModel, HelperResult> template, Action<IColumnConfiguration<TModel>> columnConfiguration = null)
+        {
+            var config = new RazorColumn<TModel>(columnTitle, template);
+            columnConfiguration.ExecuteIfNotNull(config);
+            _columns.Add(config);
+            return this;
+        }
     }
 }

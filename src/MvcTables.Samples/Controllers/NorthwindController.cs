@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Samples.Controllers
+﻿using MvcTables.Configuration;
+
+namespace MvcTables.Samples.Controllers
 {
     #region
 
@@ -42,9 +44,15 @@
             return View();
         }
 
-        public ActionResult ParentChild()
+        public ActionResult Shippers()
         {
             return View();
+        }
+
+        public ActionResult ParentChild()
+        {
+            var currentOrder = new NorthwindEntities(NorthwindServiceUrl).Orders.First();
+            return View(new{orderId = currentOrder.OrderID});
         }
 
         public ActionResult KitchenSink()
@@ -56,7 +64,7 @@
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             var customers =
-                new Customer[] {null}.Union(
+                new Customer[] { null }.Union(
                                             entities.Orders.Expand(o => o.Customer)
                                                     .ToArray()
                                                     .Select(o => o.Customer)
@@ -100,6 +108,14 @@
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             return TableResult.From(entities.Invoices).Build<InvoiceTable>(request);
+        }
+
+        public ActionResult ListShippers(TableRequestModel request)
+        {
+            var entities = new NorthwindEntities(NorthwindServiceUrl);
+            var shippers = entities.Shippers.ToList();
+            int rowsNumber = 20;
+            return TableResult.From(shippers).Build<ViewConfigedMvcTable<Shipper>>(request, rowsNumber);
         }
 
         public ActionResult ListCategories(TableRequestModel request)

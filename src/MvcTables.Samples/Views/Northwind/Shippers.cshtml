@@ -1,0 +1,39 @@
+﻿@using MvcTables.Samples.NorthwindEntities
+
+@{
+    var table = Html.MvcTable<Shipper>(config =>
+    {
+        config.SetCssClass("table table-striped");
+        config.SetAction("ListShippers", "Northwind");
+        config.DisplayForColumn(x => x.CompanyName);
+        config.EditorForColumn(x => x.Phone);
+        config.AddRazorColumn("Razor Column", @<text>
+                                                   <div>CompanyName: @item.CompanyName</div>
+                                                    <div>Phone: @item.Phone</div>
+                                               </text>);
+    });
+}
+
+<section id="Result" class="spy-on-me">
+    <h4>Result</h4>
+    @table.Table()
+</section>
+<section id="Config" class="spy-on-me">
+    <h4>Config</h4>
+    <pre class="prettyprint table-config">
+    @@{
+        var table = Html.MvcTable&lt;Shipper&gt;(config =&gt;
+        {
+            config.SetCssClass(&quot;table table-striped&quot;);
+            config.SetAction(&quot;ListShippers&quot;, &quot;Northwind&quot;);
+            config.DisplayForColumn(x =&gt; x.CompanyName);
+            config.EditorForColumn(x =&gt; x.Phone);
+            config.AddRazorColumn(&quot;Razor Column&quot;, @@&lt;text&gt;
+                                                &lt;div&gt;CompanyName: @@item.CompanyName&lt;/div&gt;
+                                                &lt;div&gt;Phone: @@item.Phone&lt;/div&gt;
+                                            &lt;/text&gt;);
+        });
+    }
+    </pre>
+
+</section>

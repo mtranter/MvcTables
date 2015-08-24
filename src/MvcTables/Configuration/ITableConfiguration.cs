@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Configuration
+﻿using System.Web.WebPages;
+
+namespace MvcTables.Configuration
 {
     #region
 
@@ -9,6 +11,13 @@
 
     #endregion
 
+
+    public interface IViewTableConfiguration<TModel> : IStaticTableConfiguration<TModel>
+    {
+        IViewTableConfiguration<TModel> AddRazorColumn(string columnTitle, Func<TModel, HelperResult> template,
+                                                       Action<IColumnConfiguration<TModel>> columnConfiguration = null);
+    }
+    
     public interface IStaticTableConfiguration<TModel> : ITableConfiguration<TModel> 
     {
         /// <summary>
@@ -45,6 +54,37 @@
 
     public interface ITableConfiguration<TModel> : IFluentInterface
     {
+        /// <summary>
+        /// Sets the deafult page size of the table
+        /// </summary>
+        /// <param name="pageSize">The number of rows</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> SetDefaultPageSize(int pageSize);
+
+        /// <summary>
+        /// Sets the Column that will be sorted by default and the sort order
+        /// </summary>
+        /// <param name="column">The name of the column to sory by</param>
+        /// <param name="sortAscending">Set true to sort in ascending order</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> SetDefaultSortColumn(string column, bool sortAscending);
+
+        /// <summary>
+        /// Sets the Column that will be sorted by default and the sort order
+        /// </summary>
+        ///  /// <typeparam name="TColumn">
+        ///     The <see cref="System.Type" /> of this column
+        /// </typeparam>
+        /// <param name="columnDefinition">A <see cref="Func{T}" /> used to set the default column to sort by</param>
+        /// <param name="sortAscending">Set true to sort in ascending order</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> SetDefaultSortColumn<TColumn>(Expression<Func<TModel, TColumn>> columnDefinition, bool sortAscending);
 
         /// <summary>
         ///     Defines the CSS class(es) that decorate the &gt;table /&lt;
