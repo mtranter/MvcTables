@@ -35,7 +35,7 @@
         private readonly int _totalResults;
 
         public TableResult(IEnumerable<TModel> rows, int totalResults, TableRequestModel tableRequest)
-            : this(rows, totalResults, typeof (TModel).FullName, tableRequest)
+            : this(rows, totalResults, typeof(TModel).FullName, tableRequest)
         {
         }
 
@@ -53,7 +53,7 @@
         }
 
         public TableResult(IQueryable<TModel> rows, TableRequestModel tableRequest)
-            : this(rows, rows.Count(), typeof (TModel).FullName, tableRequest)
+            : this(rows, rows.Count(), typeof(TModel).FullName, tableRequest)
         {
         }
 
@@ -84,51 +84,56 @@
             if (!_tableRequest.PageSize.HasValue)
             {
                 var defaultPageSize = runtimeConfig.PagingConfiguration.PageSizes != null ? runtimeConfig.PagingConfiguration.PageSizes.FirstOrDefault() : 10;
-                _tableRequest.PageSize = runtimeConfig.DefaultPageSize.HasValue ? runtimeConfig.DefaultPageSize.Value : defaultPageSize; 
+                _tableRequest.PageSize = runtimeConfig.DefaultPageSize.HasValue ? runtimeConfig.DefaultPageSize.Value : defaultPageSize;
             }
 
             var paginator = new Paginator(urlManager, _totalResults, _tableRequest.PageSize.Value, 8, _tableRequest.PageNumber);
+            var writer = WriterHelper.GetWriter(context);
 
-            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || (!BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context) && !BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context)))
+            using (new ComplexContentTag("div", writer))
             {
-                if (String.IsNullOrEmpty(_tableRequest.SortColumn))
+                if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || (!BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context) && !BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context)))
                 {
-                    IColumnDefinition<TModel> sortColumn = null;
-                    bool? sortAscending = null;
+                    if (String.IsNullOrEmpty(_tableRequest.SortColumn))
+                    {
+                        IColumnDefinition<TModel> sortColumn = null;
+                        bool? sortAscending = null;
 
-                    if (!String.IsNullOrEmpty(runtimeConfig.DefaultSortColumn))
-                    {
-                        sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.Name == runtimeConfig.DefaultSortColumn);
-                        sortAscending = runtimeConfig.DefaultSortAscending;
+                        if (!String.IsNullOrEmpty(runtimeConfig.DefaultSortColumn))
+                        {
+                            sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.Name == runtimeConfig.DefaultSortColumn);
+                            sortAscending = runtimeConfig.DefaultSortAscending;
+                        }
+
+                        if (sortColumn == null)
+                            sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.IsSortable);
+
+                        if (sortColumn != null)
+                        {
+                            _tableRequest.SortColumn = sortColumn.SortExpression;
+                            if (sortAscending.HasValue)
+                                _tableRequest.SortAscending = sortAscending.Value;
+                        }
                     }
-                
-                    if (sortColumn == null)
-                        sortColumn = runtimeConfig.Columns.FirstOrDefault(c => c.IsSortable);
-    
-                    if (sortColumn != null)
-                    {
-                        _tableRequest.SortColumn = sortColumn.SortExpression;
-                        if (sortAscending.HasValue)
-                            _tableRequest.SortAscending = sortAscending.Value;
-                    }
+
+                    var tableRender = TableRenderFactory.Get(runtimeConfig, _tableRequest, urlManager);
+                    tableRender.Render(_rows.PaginateRows(_tableRequest), _tableRequest, context);
                 }
 
-                var tableRender = TableRenderFactory.Get(runtimeConfig, _tableRequest, urlManager);
-                tableRender.Render(_rows.PaginateRows(_tableRequest), _tableRequest, context);
+                if (BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context))
+                {
+                    var pageRender = new HtmlPaginationRender(paginator);
+                    pageRender.RenderPagination(runtimeConfig.PagingConfiguration, runtimeConfig.Id, context);
+                }
+
+                if (BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context))
+                {
+                    var pageSizeRender = new PageSizeRender();
+                    pageSizeRender.RenderPageSize(runtimeConfig.PagingConfiguration, _tableRequest.PageSize ?? 10, runtimeConfig.Id, context);
+                }
             }
 
-            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context))
-            {
-                var pageRender = new HtmlPaginationRender(paginator);
-                pageRender.RenderPagination(runtimeConfig.PagingConfiguration, runtimeConfig.Id, context);
-            }
 
-            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context))
-            {
-                var pageSizeRender = new PageSizeRender();
-                pageSizeRender.RenderPageSize(runtimeConfig.PagingConfiguration, _tableRequest.PageSize ?? 10 , runtimeConfig.Id, context);
-
-            }
         }
 
         private ITableDefinition<TModel> GetTableDefinition(ControllerContext ctx)
@@ -149,7 +154,7 @@
             var url = urlHelper.Action(context.RouteData.Values["action"].ToString(),
                                        context.RouteData.Values["controller"].ToString(),
                                        context.RouteData.Values.ContainsKey("id")
-                                           ? new {id = context.RouteData.Values["id"]}
+                                           ? new { id = context.RouteData.Values["id"] }
                                            : null);
             var qsVals = SanitizeQueryString(context.RequestContext.HttpContext.Request.QueryString);
             var urlManager = new TableUrlManager(url, _tableRequest, qsVals);
@@ -159,7 +164,7 @@
         private NameValueCollection SanitizeQueryString(NameValueCollection nameValueCollection)
         {
             var clone = new NameValueCollection(nameValueCollection);
-            foreach (var key in new[] {HtmlConstants.RenderPaginationRouteValue, HtmlConstants.RenderTableRouteValue, HtmlConstants.RenderPageSizeRouteValue})
+            foreach (var key in new[] { HtmlConstants.RenderPaginationRouteValue, HtmlConstants.RenderTableRouteValue, HtmlConstants.RenderPageSizeRouteValue })
             {
                 if (clone.AllKeys.Contains(key))
                 {
@@ -172,7 +177,7 @@
         private bool BoolValueExistsAndIsTrue(string key, ControllerContext context)
         {
             return (context.RouteData.Values.ContainsKey(key) &&
-                    (bool) context.RouteData.Values[key]) ||
+                    (bool)context.RouteData.Values[key]) ||
                    (context.HttpContext.Request.QueryString.AllKeys.Contains(key) &&
                     context.HttpContext.Request.QueryString[key].Equals("true",
                                                                         StringComparison.CurrentCultureIgnoreCase));

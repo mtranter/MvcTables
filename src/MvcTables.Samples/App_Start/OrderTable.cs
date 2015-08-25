@@ -14,8 +14,7 @@ namespace MvcTables.Samples.App_Start
                   .DisplayForColumn(c => c.Shipper.CompanyName)
                   .DisplayForColumn(c => c.ShipRegion)
                   .DisplayForColumn(c => c.Order_Details[0].Quantity)
-                  .ConfigurePagingControl(p => p.SetContainerCssClass("pagination").SetPageSizes(10, 20, 30))
-                  ;
+                  .ConfigurePagingControl(p => p.SetContainerCssClass("pagination").SetPageSizes(10, 20, 30));
         }
     }
 }

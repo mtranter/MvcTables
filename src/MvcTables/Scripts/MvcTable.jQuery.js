@@ -180,20 +180,21 @@
                 var $newHtml = $(data);
                 if ($newHtml.length == 0)
                     return;
-                var paginator = $($newHtml[0]).is('.mvctable-paginator') ? $($newHtml[0]) : $($newHtml[1]);
+
+
+                var paginator = $newHtml.find('.mvctable-paginator');
                 if (paginator.length) {
                     $('.mvctable-paginator').filter('[data-target="' + id + '"]').replaceWith(paginator);
-                    if ($newHtml.length == 1)
-                        return;
                 }
 
-                var pageSize = $($newHtml[2]);
+                var pageSize = $newHtml.find('.mvc-table-page-size');
                 if (pageSize.length) {
                     $('.mvc-table-page-size').filter('[data-target="' + id + '"]').replaceWith(pageSize);
                 }
 
-                if ($($newHtml[0]).is('.mvctable-container')) {
-                    var $table = $($newHtml[0]).find('table');
+                var tableContainer = $newHtml.find('.mvctable-container');
+                if (tableContainer.length) {
+                    var $table = tableContainer.find('table');
                     $($that).html($table.html());
                     copyAttributes($table, $that);
                     var refreshedEvent = $.Event("refreshed.mvctable");
