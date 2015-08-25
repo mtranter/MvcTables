@@ -37,12 +37,12 @@ namespace MvcTables.Html
 
         public MvcHtmlString Table()
         {
-            return Render(true, false);
+            return Render(true, false, false);
         }
 
         public MvcHtmlString Pagination()
         {
-            return Render(false, true);
+            return Render(false, true, false);
         }
 
         public MvcHtmlString DropdownFilter(string name, IEnumerable<SelectListItem> items)
@@ -72,6 +72,8 @@ namespace MvcTables.Html
             return PageSizer(pageSizeOptions, null);
         }
 
+
+         [Obsolete("Please set page sizes in table configuration and user PageSizer() to render so it will update correctly on page load")]
         public MvcHtmlString PageSizer(IEnumerable<int> pageSizeOptions, object htmlAttributes)
         {
             var name = StaticReflection.StaticReflection.GetMember((TableRequestModel m) => m.PageSize).Name;
@@ -88,6 +90,12 @@ namespace MvcTables.Html
                                             }), attributes);
         }
 
+         public MvcHtmlString PageSizer()
+         {
+             return Render(false, false, true);
+         }
+
+
         private RouteValueDictionary BuildAttributesWithFilterClass(object htmlAttributes)
         {
             var attributes = new RouteValueDictionary(htmlAttributes);
@@ -96,11 +104,12 @@ namespace MvcTables.Html
         }
 
 
-        private MvcHtmlString Render(bool table, bool pager)
+        private MvcHtmlString Render(bool table, bool pager, bool pageSize)
         {
             var routevals = new RouteValueDictionary(_helper.ViewData.Model);
             routevals[HtmlConstants.RenderTableRouteValue] = table;
             routevals[HtmlConstants.RenderPaginationRouteValue] = pager;
+            routevals[HtmlConstants.RenderPageSizeRouteValue] = pageSize;
             routevals["area"] = _tableDefinition.Area;
             foreach (var key in _helper.ViewData.Keys)
             {

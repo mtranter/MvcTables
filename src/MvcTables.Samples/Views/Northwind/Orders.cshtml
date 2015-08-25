@@ -4,9 +4,11 @@
 }
 <section id="Result" class="spy-on-me">
     <h4>Result</h4>
-    
+    @table.PageSizer()
+    @table.Pagination()
     @table.Table()
     @table.Pagination()
+    @table.PageSizer()
 </section>
 <section id="Config" class="spy-on-me">
     <h4>Config</h4>
@@ -17,13 +19,12 @@
         {
             config.SetAction(&quot;ListOrders&quot;, &quot;Northwind&quot;)
                   .SetCssClass(&quot;table table-striped&quot;)
-                  .SetDefaultPageSize(15)
                   .HiddenColumnFor(c =&gt; c.OrderID, cfg =&gt; cfg.Hide())
                   .ActionLinkColumn(c =&gt; c.Customer.City, &quot;Category&quot;, &quot;Home&quot;)
                   .DisplayForColumn(c =&gt; c.Shipper.CompanyName)
                   .DisplayForColumn(c =&gt; c.ShipRegion)
                   .DisplayForColumn(c =&gt; c.Order_Details[0].Quantity)
-                  .ConfigurePagingControl(p =&gt; p.SetContainerCssClass(&quot;pagination&quot;));
+                  .ConfigurePagingControl(p => p.SetContainerCssClass(&quot;pagination&quot;).SetPageSizes(10, 20, 30));
         }
     }
     </pre>

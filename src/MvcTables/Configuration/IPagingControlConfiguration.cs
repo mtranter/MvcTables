@@ -1,4 +1,6 @@
-﻿namespace MvcTables.Configuration
+﻿using System;
+
+namespace MvcTables.Configuration
 {
     public interface IPagingControlConfiguration : IFluentInterface
     {
@@ -64,5 +66,15 @@
         ///     The current <see cref="IPagingControlConfiguration" /> for chaining config methods
         /// </returns>
         IPagingControlConfiguration SetLastPageText(string text);
+
+        /// <summary>
+        ///     Defines the sizes for page size control
+        /// </summary>
+        /// <param name="sizes">The page sizes to be displayed</param>
+        /// <returns>
+        ///     The current <see cref="IPagingControlConfiguration" /> for chaining config methods
+        /// </returns>
+        IPagingControlConfiguration SetPageSizes(params int[] sizes);
+
     }
 }

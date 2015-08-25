@@ -82,13 +82,14 @@
             var urlManager = InitUrlManager(context);
 
             if (!_tableRequest.PageSize.HasValue)
-            { 
-                _tableRequest.PageSize = runtimeConfig.DefaultPageSize.HasValue ? runtimeConfig.DefaultPageSize.Value : 10; 
+            {
+                var defaultPageSize = runtimeConfig.PagingConfiguration.PageSizes != null ? runtimeConfig.PagingConfiguration.PageSizes.FirstOrDefault() : 10;
+                _tableRequest.PageSize = runtimeConfig.DefaultPageSize.HasValue ? runtimeConfig.DefaultPageSize.Value : defaultPageSize; 
             }
 
             var paginator = new Paginator(urlManager, _totalResults, _tableRequest.PageSize.Value, 8, _tableRequest.PageNumber);
 
-            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || !BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context))
+            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderTableRouteValue, context) || (!BoolValueExistsAndIsTrue(HtmlConstants.RenderPaginationRouteValue, context) && !BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context)))
             {
                 if (String.IsNullOrEmpty(_tableRequest.SortColumn))
                 {
@@ -121,6 +122,13 @@
                 var pageRender = new HtmlPaginationRender(paginator);
                 pageRender.RenderPagination(runtimeConfig.PagingConfiguration, runtimeConfig.Id, context);
             }
+
+            if (BoolValueExistsAndIsTrue(HtmlConstants.RenderPageSizeRouteValue, context))
+            {
+                var pageSizeRender = new PageSizeRender();
+                pageSizeRender.RenderPageSize(runtimeConfig.PagingConfiguration, _tableRequest.PageSize ?? 10 , runtimeConfig.Id, context);
+
+            }
         }
 
         private ITableDefinition<TModel> GetTableDefinition(ControllerContext ctx)
@@ -151,7 +159,7 @@
         private NameValueCollection SanitizeQueryString(NameValueCollection nameValueCollection)
         {
             var clone = new NameValueCollection(nameValueCollection);
-            foreach (var key in new[] {HtmlConstants.RenderPaginationRouteValue, HtmlConstants.RenderTableRouteValue})
+            foreach (var key in new[] {HtmlConstants.RenderPaginationRouteValue, HtmlConstants.RenderTableRouteValue, HtmlConstants.RenderPageSizeRouteValue})
             {
                 if (clone.AllKeys.Contains(key))
                 {

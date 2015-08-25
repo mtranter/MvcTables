@@ -1,4 +1,7 @@
-﻿namespace MvcTables.Configuration
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace MvcTables.Configuration
 {
     internal class PagingControlConfiguration : IPagingControlConfiguration
     {
@@ -22,6 +25,7 @@
         public string LastPageText { get; private set; }
         public string NextPageText { get; private set; }
         public string PreviousPageText { get; private set; }
+        public IEnumerable<int> PageSizes { get; private set; }
         public ITableDefinition TableDefinition { get; private set; }
 
         internal bool IsDefault { get; private set; }
@@ -73,6 +77,13 @@
         IPagingControlConfiguration IPagingControlConfiguration.SetLastPageText(string text)
         {
             LastPageText = text;
+            IsDefault = false;
+            return this;
+        }
+
+        public IPagingControlConfiguration SetPageSizes(params int[] sizes)
+        {   
+            PageSizes = sizes;
             IsDefault = false;
             return this;
         }

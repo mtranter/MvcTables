@@ -173,6 +173,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Columns\ReflectedColumn.cs" />
     <Compile Include="Columns\ReflectedColumnBase.cs" />
+    <Compile Include="Render\PageSizeRender.cs" />
     <Compile Include="Render\PaginationRender.cs" />
     <Compile Include="Render\RouteValueDictionaryExtensions.cs" />
     <Compile Include="Render\WriterHelper.cs" />

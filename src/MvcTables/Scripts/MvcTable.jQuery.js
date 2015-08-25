@@ -171,6 +171,7 @@
             params = params || {};
             params.RenderTable = params.RenderTable || true;
             params.RenderPager = params.RenderPager || true;
+            params.RenderPageSize = params.RenderPageSize || true;
             var qs = initQueryString(params);
             var url = $that.data('source').split('?')[0] + qs;
             var id = $that.data('table-id');
@@ -184,6 +185,11 @@
                     $('.mvctable-paginator').filter('[data-target="' + id + '"]').replaceWith(paginator);
                     if ($newHtml.length == 1)
                         return;
+                }
+
+                var pageSize = $($newHtml[2]);
+                if (pageSize.length) {
+                    $('.mvc-table-page-size').filter('[data-target="' + id + '"]').replaceWith(pageSize);
                 }
 
                 if ($($newHtml[0]).is('.mvctable-container')) {
