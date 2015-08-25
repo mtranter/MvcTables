@@ -67,13 +67,14 @@ namespace MvcTables.Html
             get { return _tableDefinition.FilterExpression; }
         }
 
+        [Obsolete("Please set page sizes in table configuration and user PageSizer() to render so it will update correctly on page load")]
         public MvcHtmlString PageSizer(params int[] pageSizeOptions)
         {
             return PageSizer(pageSizeOptions, null);
         }
 
 
-         [Obsolete("Please set page sizes in table configuration and user PageSizer() to render so it will update correctly on page load")]
+        [Obsolete("Please set page sizes in table configuration and user PageSizer() to render so it will update correctly on page load")]
         public MvcHtmlString PageSizer(IEnumerable<int> pageSizeOptions, object htmlAttributes)
         {
             var name = StaticReflection.StaticReflection.GetMember((TableRequestModel m) => m.PageSize).Name;
