@@ -14,6 +14,7 @@
         internal const string MvctableContainer = "mvctable-container";
         internal const string RenderPaginationRouteValue = "RenderPager";
         internal const string RenderTableRouteValue = "RenderTable";
+        internal const string RenderPageSizeRouteValue = "RenderPageSize";
     }
 
     internal class HtmlTableRender<TModel> : ITableRender<TModel>
