@@ -417,5 +417,29 @@ namespace MvcTables.Configuration
                                                                             Func<TColumn, TDisp> displayValue,
                                                                             Action<IColumnConfiguration<TModel>>
                                                                                 columnConfiguration = null);
+
+        /// <summary>
+        ///     Hide column from the table
+        /// </summary>
+        /// <param name="name">Name of the column to hide</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> HideColumn(string name);
+
+        /// <summary>
+        ///     Hide column from the table
+        /// </summary>
+        /// <param name="property">Expression selecting the column to hide</param>
+        /// <returns>
+        ///     An instance of <see cref="ITableConfiguration{TModel}" /> to allow chaining
+        /// </returns>
+        ITableConfiguration<TModel> HideColumn<TColumn>(Expression<Func<TModel, TColumn>> property);
+
+
+        /// <summary>
+        ///    List of columns that will not displayed
+        /// </summary>
+        IList<string> HiddenColumns { get; }
     }
 }

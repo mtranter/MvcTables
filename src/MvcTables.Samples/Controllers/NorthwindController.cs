@@ -128,7 +128,10 @@ namespace MvcTables.Samples.Controllers
         {
             var entities = new NorthwindEntities(NorthwindServiceUrl);
             var orders = entities.Orders.Expand(o => o.Customer).Expand(o => o.Shipper).Expand(o => o.Order_Details);
-            return TableResult.From(orders).Build<OrderTable>(request);
+            var table =TableResult.From(orders).Build<OrderTable>(request);
+            table.Overrides.HideColumn(order => order.ShipRegion);
+            
+            return table;
         }
 
         public ActionResult ListParentOrders(TableRequestModel request, string nameFilter)

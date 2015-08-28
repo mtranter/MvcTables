@@ -17,7 +17,9 @@ namespace MvcTables.Configuration
 
     internal class TableConfiguration<TModel> : IStaticTableConfiguration<TModel>, ITableDefinition<TModel>, IViewTableConfiguration<TModel>
     {
-        
+
+        private List<string> _hiddenColumns;
+
         private static readonly MethodInfo AddColumnMethod =
             typeof (ITableConfiguration<TModel>).GetMethod("DisplayForColumn");
 
@@ -26,6 +28,7 @@ namespace MvcTables.Configuration
         public TableConfiguration()
         {
             PagingConfiguration = new PagingControlConfiguration(this);
+            _hiddenColumns = new List<string>();
             FilterExpression = "mvc-table-filter";
             Id = Guid.NewGuid().ToString("N");
         }
@@ -40,26 +43,17 @@ namespace MvcTables.Configuration
         }
 
         public PagingControlConfiguration PagingConfiguration { get; private set; }
-        
+
         public string FilterExpression { get; private set; }
 
-        public string Action
-        {
-            get;
-            private set;
-        }
+        public string Action { get; private set; }
 
-        public string Controller
-        {
-            get;
-            private set;
-        }
+        public string Controller { get; private set; }
 
-        public string Area
-        {
-            get;
-            private set;
-        }
+        public string Area { get; private set; }
+
+        
+
 
         public string DefaultSortColumn { get; private set; }
 
@@ -67,7 +61,9 @@ namespace MvcTables.Configuration
 
         public int? DefaultPageSize { get; private set; }
 
-        #region ITableConfiguration<TModel> Members
+        
+
+            #region ITableConfiguration<TModel> Members
 
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultPageSize(int pageSize)
         {
@@ -282,6 +278,21 @@ namespace MvcTables.Configuration
             return (this as ITableConfiguration<TModel>).DropdownColumnFor(property, listItems, columnConfiguration);
         }
 
+
+
+        public IList<string> HiddenColumns { get { return _hiddenColumns; } }
+
+        public ITableConfiguration<TModel> HideColumn(string name)
+        {
+            _hiddenColumns.Add(name);
+            return this;
+        }
+
+        public ITableConfiguration<TModel> HideColumn<TColumn>(Expression<Func<TModel, TColumn>> property)
+        {
+            _hiddenColumns.Add(ExpressionHelper.GetExpressionText(property));
+            return this;
+        }
 
         #endregion
 
