@@ -19,6 +19,7 @@
         string DefaultSortColumn { get; }
         bool? DefaultSortAscending { get; }
         int? DefaultPageSize { get; }
+        IEnumerable<string> HiddenColumns { get; }
     }
 
     internal interface ITableDefinition<in TModel> : ITableDefinition

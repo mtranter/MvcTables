@@ -48,12 +48,14 @@
             }
         }
 
+        public IEnumerable<string> HiddenColumns { get { return _runtimeDefiniton.HiddenColumns; }}
+
         public IEnumerable<IColumnDefinition<TModel>> Columns
         {
             get
             {
-                var staticColumns = _staticModel.Columns.ToArray();
-                var runtimeColumns = _runtimeDefiniton.Columns.ToArray();
+                var staticColumns = _staticModel.Columns.Where(definition => !HiddenColumns.Contains(definition.Name)).ToArray();
+                var runtimeColumns = _runtimeDefiniton.Columns.Where(definition => !HiddenColumns.Contains(definition.Name)).ToArray();
                 for (var i = 0; i < staticColumns.Length; i++)
                 {
                     var runtimeCol = runtimeColumns.FirstOrDefault(r => r.Index == i);
