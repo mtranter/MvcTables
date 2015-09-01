@@ -440,6 +440,6 @@ namespace MvcTables.Configuration
         /// <summary>
         ///    List of columns that will not displayed
         /// </summary>
-        IList<string> HiddenColumns { get; }
+        IEnumerable<string> HiddenColumns { get; }
     }
 }

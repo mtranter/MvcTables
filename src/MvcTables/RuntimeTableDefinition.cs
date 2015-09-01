@@ -48,7 +48,7 @@
             }
         }
 
-        public IList<string> HiddenColumns { get { return _runtimeDefiniton.HiddenColumns; }}
+        public IEnumerable<string> HiddenColumns { get { return _runtimeDefiniton.HiddenColumns; }}
 
         public IEnumerable<IColumnDefinition<TModel>> Columns
         {

@@ -61,9 +61,8 @@ namespace MvcTables.Configuration
 
         public int? DefaultPageSize { get; private set; }
 
-        
 
-            #region ITableConfiguration<TModel> Members
+        #region ITableConfiguration<TModel> Members
 
         ITableConfiguration<TModel> ITableConfiguration<TModel>.SetDefaultPageSize(int pageSize)
         {
@@ -280,7 +279,7 @@ namespace MvcTables.Configuration
 
 
 
-        public IList<string> HiddenColumns { get { return _hiddenColumns; } }
+        public IEnumerable<string> HiddenColumns { get { return _hiddenColumns; } }
 
         public ITableConfiguration<TModel> HideColumn(string name)
         {
