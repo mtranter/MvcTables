@@ -175,30 +175,33 @@
             var qs = initQueryString(params);
             var url = $that.data('source').split('?')[0] + qs;
             var id = $that.data('table-id');
-            $.get(url, function (data) {
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function (data) {
+                    var $newHtml = $(data);
+                    if ($newHtml.length == 0)
+                        return;
 
-                var $newHtml = $(data);
-                if ($newHtml.length == 0)
-                    return;
 
+                    var paginator = $newHtml.find('.mvctable-paginator');
+                    if (paginator.length) {
+                        $('.mvctable-paginator').filter('[data-target="' + id + '"]').replaceWith(paginator);
+                    }
 
-                var paginator = $newHtml.find('.mvctable-paginator');
-                if (paginator.length) {
-                    $('.mvctable-paginator').filter('[data-target="' + id + '"]').replaceWith(paginator);
-                }
+                    var pageSize = $newHtml.find('.mvc-table-page-size');
+                    if (pageSize.length) {
+                        $('.mvc-table-page-size').filter('[data-target="' + id + '"]').replaceWith(pageSize);
+                    }
 
-                var pageSize = $newHtml.find('.mvc-table-page-size');
-                if (pageSize.length) {
-                    $('.mvc-table-page-size').filter('[data-target="' + id + '"]').replaceWith(pageSize);
-                }
-
-                var tableContainer = $newHtml.find('.mvctable-container');
-                if (tableContainer.length) {
-                    var $table = tableContainer.find('table');
-                    $($that).html($table.html());
-                    copyAttributes($table, $that);
-                    var refreshedEvent = $.Event("refreshed.mvctable");
-                    $that.trigger(refreshedEvent);
+                    var tableContainer = $newHtml.find('.mvctable-container');
+                    if (tableContainer.length) {
+                        var $table = tableContainer.find('table');
+                        $($that).html($table.html());
+                        copyAttributes($table, $that);
+                        var refreshedEvent = $.Event("refreshed.mvctable");
+                        $that.trigger(refreshedEvent);
+                    }
                 }
             });
         }
