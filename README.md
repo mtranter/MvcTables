@@ -2,6 +2,7 @@
 MvcTables
 ========
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/mtranter/MvcTables?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build status](https://ci.appveyor.com/api/projects/status/7t4avw58mno7h8r4?svg=true)](https://ci.appveyor.com/project/mtranter/mvctables)
 
 An AJAX/HTML Table framework for ASP.Net MVC
 
